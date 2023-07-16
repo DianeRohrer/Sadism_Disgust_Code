@@ -39,8 +39,6 @@ AMPLIFIER = "BrainAmp Family"
 with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
     disgust_image_paths = json.loads(f.read())
 
-print(type(disgust_image_paths))
-
 '''
 # Do the same procedure with emotion names and filenames.
 # First read in the entire list.

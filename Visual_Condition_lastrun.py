@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2023.1.3),
-    on Sun Jul 16 14:48:45 2023
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
+    on Sun Jul 16 18:53:08 2023
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -14,10 +14,8 @@ If you publish work using this script the most relevant publication is:
 # --- Import packages ---
 from psychopy import locale_setup
 from psychopy import prefs
-from psychopy import plugins
-plugins.activatePlugins()
+prefs.hardware['audioLib'] = 'ptb'
 from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout
-from psychopy.tools import environmenttools
 from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
                                 STOPPED, FINISHED, PRESSED, RELEASED, FOREVER)
 
@@ -31,7 +29,238 @@ import sys  # to get file system encoding
 import psychopy.iohub as io
 from psychopy.hardware import keyboard
 
-# Run 'Before Experiment' code from code
+
+
+# Ensure that relative paths start from the same directory as this script
+_thisDir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(_thisDir)
+# Store info about the experiment session
+psychopyVersion = '2022.2.5'
+expName = 'Visual_Condition'  # from the Builder filename that created this script
+expInfo = {
+    'participant': f"{randint(0, 999999):06.0f}",
+    'session': '001',
+}
+# --- Show participant info dialog --
+dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
+if dlg.OK == False:
+    core.quit()  # user pressed cancel
+expInfo['date'] = data.getDateStr()  # add a simple timestamp
+expInfo['expName'] = expName
+expInfo['psychopyVersion'] = psychopyVersion
+
+# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
+filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
+
+# An ExperimentHandler isn't essential but helps with data saving
+thisExp = data.ExperimentHandler(name=expName, version='',
+    extraInfo=expInfo, runtimeInfo=None,
+    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
+    savePickle=True, saveWideText=True,
+    dataFileName=filename)
+# save a log file for detail verbose info
+logFile = logging.LogFile(filename+'.log', level=logging.EXP)
+logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
+
+endExpNow = False  # flag for 'escape' or other condition => quit the exp
+frameTolerance = 0.001  # how close to onset before 'same' frame
+
+# Start Code - component code to be run after the window creation
+
+# --- Setup the Window ---
+win = visual.Window(
+    size=[1728, 1117], fullscr=True, screen=0, 
+    winType='pyglet', allowStencil=False,
+    monitor='testMonitor', color=[-0.5, -0.5, -0.5], colorSpace='rgb',
+    blendMode='avg', useFBO=True, 
+    units='height')
+win.mouseVisible = False
+# store frame rate of monitor if we can measure it
+expInfo['frameRate'] = win.getActualFrameRate()
+if expInfo['frameRate'] != None:
+    frameDur = 1.0 / round(expInfo['frameRate'])
+else:
+    frameDur = 1.0 / 60.0  # could not measure, so guess
+# --- Setup input devices ---
+ioConfig = {}
+
+# Setup iohub keyboard
+ioConfig['Keyboard'] = dict(use_keymap='psychopy')
+
+ioSession = '1'
+if 'session' in expInfo:
+    ioSession = str(expInfo['session'])
+ioServer = io.launchHubServer(window=win, **ioConfig)
+eyetracker = None
+
+# create a default keyboard (e.g. to check for escape)
+defaultKeyboard = keyboard.Keyboard(backend='iohub')
+
+# --- Initialize components for Routine "Connecting" ---
+connecting_message = visual.TextStim(win=win, name='connecting_message',
+    text='Connecting to EMG recorder',
+    font='Open Sans',
+    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
+
+# --- Initialize components for Routine "Setup_Code" ---
+
+# --- Initialize components for Routine "Sit_Still" ---
+textbox = visual.TextBox2(
+     win, text='Please relax and sit still for the next 30 seconds', font='Open Sans',
+     pos=(0, 0),     letterHeight=0.05,
+     size=(None, None), borderWidth=2.0,
+     color='white', colorSpace='rgb',
+     opacity=None,
+     bold=False, italic=False,
+     lineSpacing=1.0,
+     padding=0.0, alignment='center',
+     anchor='center',
+     fillColor=None, borderColor=None,
+     flipHoriz=False, flipVert=False, languageStyle='LTR',
+     editable=False,
+     name='textbox',
+     autoLog=True,
+)
+
+# --- Initialize components for Routine "Sync_Beeps" ---
+sync_beep_1 = sound.Sound('400', secs=0.3, stereo=True, hamming=True,
+    name='sync_beep_1')
+sync_beep_1.setVolume(1.0)
+sync_beep_2 = sound.Sound('400', secs=0.3, stereo=True, hamming=True,
+    name='sync_beep_2')
+sync_beep_2.setVolume(1.0)
+sync_beep_3 = sound.Sound('400', secs=.3, stereo=True, hamming=True,
+    name='sync_beep_3')
+sync_beep_3.setVolume(1.0)
+sync_beep_4 = sound.Sound('800', secs=0.6, stereo=True, hamming=True,
+    name='sync_beep_4')
+sync_beep_4.setVolume(1.0)
+
+# --- Initialize components for Routine "Baseline_EMG" ---
+
+# --- Initialize components for Routine "Instructions" ---
+instructions = visual.TextStim(win=win, name='instructions',
+    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.',
+    font='Open Sans',
+    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
+
+# --- Initialize components for Routine "View_Cross" ---
+cross = visual.ShapeStim(
+    win=win, name='cross', vertices='cross',
+    size=(0.5, 0.5),
+    ori=0.0, pos=(0, 0), anchor='center',
+    lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
+    opacity=None, depth=0.0, interpolate=True)
+
+# --- Initialize components for Routine "View_Image" ---
+disgust_image = visual.ImageStim(
+    win=win,
+    name='disgust_image', 
+    image='sin', mask=None, anchor='center',
+    ori=0.0, pos=(0, .25), size=(0.5, 0.5),
+    color=[1,1,1], colorSpace='rgb', opacity=None,
+    flipHoriz=False, flipVert=False,
+    texRes=128.0, interpolate=True, depth=0.0)
+
+# --- Initialize components for Routine "Score_Image" ---
+disgust_score = visual.Slider(win=win, name='disgust_score',
+    startValue=None, size=(1.0, 0.1), pos=(0, -0.2), units=None,
+    labels=["Not disgusting at all", "Slightly disgusting", "Moderately disgusting,\ncauses me to\nscrunch up my nose", "Very disgusting,\nI want to push\nthe image away", "Extremely disgusting,\nI feel nauseous"], ticks=(0, 1, 2, 3, 4), granularity=1.0,
+    style='rating', styleTweaks=(), opacity=None,
+    labelColor=[0.8, 0.8, 0.8], markerColor=[1.0000, -1.0000, 1.0000], lineColor=[1.0000, 1.0000, 1.0000], colorSpace='rgb',
+    font='Open Sans', labelHeight=0.02,
+    flip=False, ori=0.0, depth=0, readOnly=False)
+
+# Create some handy timers
+globalClock = core.Clock()  # to track the time since experiment started
+routineTimer = core.Clock()  # to track time remaining of each (possibly non-slip) routine 
+
+# --- Prepare to start Routine "Connecting" ---
+continueRoutine = True
+routineForceEnded = False
+# update component parameters for each repeat
+# keep track of which components have finished
+ConnectingComponents = [connecting_message]
+for thisComponent in ConnectingComponents:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+frameN = -1
+
+# --- Run Routine "Connecting" ---
+while continueRoutine and routineTimer.getTime() < 0.1:
+    # get current time
+    t = routineTimer.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # *connecting_message* updates
+    if connecting_message.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        connecting_message.frameNStart = frameN  # exact frame index
+        connecting_message.tStart = t  # local t and not account for scr refresh
+        connecting_message.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(connecting_message, 'tStartRefresh')  # time at next scr refresh
+        # add timestamp to datafile
+        thisExp.timestampOnFlip(win, 'connecting_message.started')
+        connecting_message.setAutoDraw(True)
+    if connecting_message.status == STARTED:
+        # is it time to stop? (based on global clock, using actual start)
+        if tThisFlipGlobal > connecting_message.tStartRefresh + .1-frameTolerance:
+            # keep track of stop time/frame for later
+            connecting_message.tStop = t  # not accounting for scr refresh
+            connecting_message.frameNStop = frameN  # exact frame index
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'connecting_message.stopped')
+            connecting_message.setAutoDraw(False)
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        routineForceEnded = True
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in ConnectingComponents:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# --- Ending Routine "Connecting" ---
+for thisComponent in ConnectingComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+# using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+if routineForceEnded:
+    routineTimer.reset()
+else:
+    routineTimer.addTime(-0.100000)
+
+# --- Prepare to start Routine "Setup_Code" ---
+continueRoutine = True
+routineForceEnded = False
+# update component parameters for each repeat
+# Run 'Begin Routine' code from initialization_script
 import json
 import os
 import time
@@ -72,8 +301,6 @@ AMPLIFIER = "BrainAmp Family"
 # and reads them in as a Python list.
 with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
     disgust_image_paths = json.loads(f.read())
-
-print(type(disgust_image_paths))
 
 '''
 # Do the same procedure with emotion names and filenames.
@@ -236,232 +463,6 @@ def stop_EMG_recording(recording_stop_time):
     else:
         # Pause the recording.
         RCS.pauseRecording()
-
-
-# Ensure that relative paths start from the same directory as this script
-_thisDir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(_thisDir)
-# Store info about the experiment session
-psychopyVersion = '2023.1.3'
-expName = 'Visual_Condition'  # from the Builder filename that created this script
-expInfo = {
-    'participant': f"{randint(0, 999999):06.0f}",
-    'session': '001',
-}
-# --- Show participant info dialog --
-dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
-if dlg.OK == False:
-    core.quit()  # user pressed cancel
-expInfo['date'] = data.getDateStr()  # add a simple timestamp
-expInfo['expName'] = expName
-expInfo['psychopyVersion'] = psychopyVersion
-
-# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
-
-# An ExperimentHandler isn't essential but helps with data saving
-thisExp = data.ExperimentHandler(name=expName, version='',
-    extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
-    savePickle=True, saveWideText=True,
-    dataFileName=filename)
-# save a log file for detail verbose info
-logFile = logging.LogFile(filename+'.log', level=logging.EXP)
-logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
-
-endExpNow = False  # flag for 'escape' or other condition => quit the exp
-frameTolerance = 0.001  # how close to onset before 'same' frame
-
-# Start Code - component code to be run after the window creation
-
-# --- Setup the Window ---
-win = visual.Window(
-    size=(1024, 768), fullscr=True, screen=0, 
-    winType='pyglet', allowStencil=True,
-    monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
-    backgroundImage='', backgroundFit='none',
-    blendMode='avg', useFBO=True, 
-    units='height')
-win.mouseVisible = False
-# store frame rate of monitor if we can measure it
-expInfo['frameRate'] = win.getActualFrameRate()
-if expInfo['frameRate'] != None:
-    frameDur = 1.0 / round(expInfo['frameRate'])
-else:
-    frameDur = 1.0 / 60.0  # could not measure, so guess
-# --- Setup input devices ---
-ioConfig = {}
-
-# Setup iohub keyboard
-ioConfig['Keyboard'] = dict(use_keymap='psychopy')
-
-ioSession = '1'
-if 'session' in expInfo:
-    ioSession = str(expInfo['session'])
-ioServer = io.launchHubServer(window=win, **ioConfig)
-eyetracker = None
-
-# create a default keyboard (e.g. to check for escape)
-defaultKeyboard = keyboard.Keyboard(backend='iohub')
-
-# --- Initialize components for Routine "Connecting" ---
-connecting_message = visual.TextStim(win=win, name='connecting_message',
-    text='Connecting to EMG recorder',
-    font='Open Sans',
-    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
-    color='white', colorSpace='rgb', opacity=None, 
-    languageStyle='LTR',
-    depth=0.0);
-
-# --- Initialize components for Routine "Setup_Code" ---
-
-# --- Initialize components for Routine "Sit_Still" ---
-textbox = visual.TextBox2(
-     win, text='Please relax and sit still for the next 30 seconds', placeholder='Type here...', font='Open Sans',
-     pos=(0, 0),     letterHeight=0.05,
-     size=(None, None), borderWidth=2.0,
-     color='white', colorSpace='rgb',
-     opacity=None,
-     bold=False, italic=False,
-     lineSpacing=1.0, speechPoint=None,
-     padding=0.0, alignment='center',
-     anchor='center', overflow='visible',
-     fillColor=None, borderColor=None,
-     flipHoriz=False, flipVert=False, languageStyle='LTR',
-     editable=False,
-     name='textbox',
-     depth=0, autoLog=True,
-)
-
-# --- Initialize components for Routine "Instructions" ---
-instructions = visual.TextStim(win=win, name='instructions',
-    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.',
-    font='Open Sans',
-    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
-    color='white', colorSpace='rgb', opacity=None, 
-    languageStyle='LTR',
-    depth=0.0);
-
-# --- Initialize components for Routine "Image" ---
-cross = visual.ShapeStim(
-    win=win, name='cross', vertices='cross',
-    size=(0.5, 0.5),
-    ori=0.0, pos=(0, 0), anchor='center',
-    lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
-    opacity=None, depth=0.0, interpolate=True)
-disgust_image = visual.ImageStim(
-    win=win,
-    name='disgust_image', 
-    image='default.png', mask=None, anchor='center',
-    ori=0.0, pos=(0, .25), size=(0.5, 0.5),
-    color=[1,1,1], colorSpace='rgb', opacity=None,
-    flipHoriz=False, flipVert=False,
-    texRes=128.0, interpolate=True, depth=-1.0)
-Disgust_Score = visual.Slider(win=win, name='Disgust_Score',
-    startValue=None, size=(1.0, 0.1), pos=(0, -0.2), units=win.units,
-    labels=["Not disgusting at all", "Slightly disgusting", "Moderately disgusting, causes me to scrunch up my nose", "Very disgusting, I want to push the image away", "Extremely disgusting, I feel nauseous"], ticks=(0, 1, 2, 3, 4), granularity=1.0,
-    style='rating', styleTweaks=(), opacity=None,
-    labelColor=[0.8, 0.8, 0.8], markerColor=[1.0000, -1.0000, 1.0000], lineColor=[1.0000, 1.0000, 1.0000], colorSpace='rgb',
-    font='Open Sans', labelHeight=0.02,
-    flip=False, ori=0.0, depth=-2, readOnly=False)
-
-# Create some handy timers
-globalClock = core.Clock()  # to track the time since experiment started
-routineTimer = core.Clock()  # to track time remaining of each (possibly non-slip) routine 
-
-# --- Prepare to start Routine "Connecting" ---
-continueRoutine = True
-# update component parameters for each repeat
-# keep track of which components have finished
-ConnectingComponents = [connecting_message]
-for thisComponent in ConnectingComponents:
-    thisComponent.tStart = None
-    thisComponent.tStop = None
-    thisComponent.tStartRefresh = None
-    thisComponent.tStopRefresh = None
-    if hasattr(thisComponent, 'status'):
-        thisComponent.status = NOT_STARTED
-# reset timers
-t = 0
-_timeToFirstFrame = win.getFutureFlipTime(clock="now")
-frameN = -1
-
-# --- Run Routine "Connecting" ---
-routineForceEnded = not continueRoutine
-while continueRoutine and routineTimer.getTime() < 0.1:
-    # get current time
-    t = routineTimer.getTime()
-    tThisFlip = win.getFutureFlipTime(clock=routineTimer)
-    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
-    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
-    # update/draw components on each frame
-    
-    # *connecting_message* updates
-    
-    # if connecting_message is starting this frame...
-    if connecting_message.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-        # keep track of start time/frame for later
-        connecting_message.frameNStart = frameN  # exact frame index
-        connecting_message.tStart = t  # local t and not account for scr refresh
-        connecting_message.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(connecting_message, 'tStartRefresh')  # time at next scr refresh
-        # add timestamp to datafile
-        thisExp.timestampOnFlip(win, 'connecting_message.started')
-        # update status
-        connecting_message.status = STARTED
-        connecting_message.setAutoDraw(True)
-    
-    # if connecting_message is active this frame...
-    if connecting_message.status == STARTED:
-        # update params
-        pass
-    
-    # if connecting_message is stopping this frame...
-    if connecting_message.status == STARTED:
-        # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > connecting_message.tStartRefresh + .1-frameTolerance:
-            # keep track of stop time/frame for later
-            connecting_message.tStop = t  # not accounting for scr refresh
-            connecting_message.frameNStop = frameN  # exact frame index
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'connecting_message.stopped')
-            # update status
-            connecting_message.status = FINISHED
-            connecting_message.setAutoDraw(False)
-    
-    # check for quit (typically the Esc key)
-    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
-        core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
-    
-    # check if all components have finished
-    if not continueRoutine:  # a component has requested a forced-end of Routine
-        routineForceEnded = True
-        break
-    continueRoutine = False  # will revert to True if at least one component still running
-    for thisComponent in ConnectingComponents:
-        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
-            continueRoutine = True
-            break  # at least one component has not yet finished
-    
-    # refresh the screen
-    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
-        win.flip()
-
-# --- Ending Routine "Connecting" ---
-for thisComponent in ConnectingComponents:
-    if hasattr(thisComponent, "setAutoDraw"):
-        thisComponent.setAutoDraw(False)
-# using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-if routineForceEnded:
-    routineTimer.reset()
-else:
-    routineTimer.addTime(-0.100000)
-
-# --- Prepare to start Routine "Setup_Code" ---
-continueRoutine = True
-# update component parameters for each repeat
 # keep track of which components have finished
 Setup_CodeComponents = []
 for thisComponent in Setup_CodeComponents:
@@ -477,7 +478,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Setup_Code" ---
-routineForceEnded = not continueRoutine
 while continueRoutine:
     # get current time
     t = routineTimer.getTime()
@@ -489,8 +489,6 @@ while continueRoutine:
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -515,6 +513,7 @@ routineTimer.reset()
 
 # --- Prepare to start Routine "Sit_Still" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 textbox.reset()
 # keep track of which components have finished
@@ -532,7 +531,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Sit_Still" ---
-routineForceEnded = not continueRoutine
 while continueRoutine and routineTimer.getTime() < 0.5:
     # get current time
     t = routineTimer.getTime()
@@ -542,8 +540,6 @@ while continueRoutine and routineTimer.getTime() < 0.5:
     # update/draw components on each frame
     
     # *textbox* updates
-    
-    # if textbox is starting this frame...
     if textbox.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         textbox.frameNStart = frameN  # exact frame index
@@ -552,16 +548,7 @@ while continueRoutine and routineTimer.getTime() < 0.5:
         win.timeOnFlip(textbox, 'tStartRefresh')  # time at next scr refresh
         # add timestamp to datafile
         thisExp.timestampOnFlip(win, 'textbox.started')
-        # update status
-        textbox.status = STARTED
         textbox.setAutoDraw(True)
-    
-    # if textbox is active this frame...
-    if textbox.status == STARTED:
-        # update params
-        pass
-    
-    # if textbox is stopping this frame...
     if textbox.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
         if tThisFlipGlobal > textbox.tStartRefresh + .5-frameTolerance:
@@ -570,15 +557,11 @@ while continueRoutine and routineTimer.getTime() < 0.5:
             textbox.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'textbox.stopped')
-            # update status
-            textbox.status = FINISHED
             textbox.setAutoDraw(False)
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -604,8 +587,204 @@ if routineForceEnded:
 else:
     routineTimer.addTime(-0.500000)
 
+# --- Prepare to start Routine "Sync_Beeps" ---
+continueRoutine = True
+routineForceEnded = False
+# update component parameters for each repeat
+sync_beep_1.setSound('400', secs=0.3, hamming=True)
+sync_beep_1.setVolume(1.0, log=False)
+sync_beep_2.setSound('400', secs=0.3, hamming=True)
+sync_beep_2.setVolume(1.0, log=False)
+sync_beep_3.setSound('400', secs=.3, hamming=True)
+sync_beep_3.setVolume(1.0, log=False)
+sync_beep_4.setSound('800', secs=0.6, hamming=True)
+sync_beep_4.setVolume(1.0, log=False)
+# keep track of which components have finished
+Sync_BeepsComponents = [sync_beep_1, sync_beep_2, sync_beep_3, sync_beep_4]
+for thisComponent in Sync_BeepsComponents:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+frameN = -1
+
+# --- Run Routine "Sync_Beeps" ---
+while continueRoutine and routineTimer.getTime() < 2.4:
+    # get current time
+    t = routineTimer.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    # start/stop sync_beep_1
+    if sync_beep_1.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        sync_beep_1.frameNStart = frameN  # exact frame index
+        sync_beep_1.tStart = t  # local t and not account for scr refresh
+        sync_beep_1.tStartRefresh = tThisFlipGlobal  # on global time
+        # add timestamp to datafile
+        thisExp.addData('sync_beep_1.started', tThisFlipGlobal)
+        sync_beep_1.play(when=win)  # sync with win flip
+    if sync_beep_1.status == STARTED:
+        # is it time to stop? (based on global clock, using actual start)
+        if tThisFlipGlobal > sync_beep_1.tStartRefresh + 0.3-frameTolerance:
+            # keep track of stop time/frame for later
+            sync_beep_1.tStop = t  # not accounting for scr refresh
+            sync_beep_1.frameNStop = frameN  # exact frame index
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'sync_beep_1.stopped')
+            sync_beep_1.stop()
+    # start/stop sync_beep_2
+    if sync_beep_2.status == NOT_STARTED and tThisFlip >= 0.6-frameTolerance:
+        # keep track of start time/frame for later
+        sync_beep_2.frameNStart = frameN  # exact frame index
+        sync_beep_2.tStart = t  # local t and not account for scr refresh
+        sync_beep_2.tStartRefresh = tThisFlipGlobal  # on global time
+        # add timestamp to datafile
+        thisExp.addData('sync_beep_2.started', tThisFlipGlobal)
+        sync_beep_2.play(when=win)  # sync with win flip
+    if sync_beep_2.status == STARTED:
+        # is it time to stop? (based on global clock, using actual start)
+        if tThisFlipGlobal > sync_beep_2.tStartRefresh + 0.3-frameTolerance:
+            # keep track of stop time/frame for later
+            sync_beep_2.tStop = t  # not accounting for scr refresh
+            sync_beep_2.frameNStop = frameN  # exact frame index
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'sync_beep_2.stopped')
+            sync_beep_2.stop()
+    # start/stop sync_beep_3
+    if sync_beep_3.status == NOT_STARTED and tThisFlip >= 1.2-frameTolerance:
+        # keep track of start time/frame for later
+        sync_beep_3.frameNStart = frameN  # exact frame index
+        sync_beep_3.tStart = t  # local t and not account for scr refresh
+        sync_beep_3.tStartRefresh = tThisFlipGlobal  # on global time
+        # add timestamp to datafile
+        thisExp.addData('sync_beep_3.started', tThisFlipGlobal)
+        sync_beep_3.play(when=win)  # sync with win flip
+    if sync_beep_3.status == STARTED:
+        # is it time to stop? (based on global clock, using actual start)
+        if tThisFlipGlobal > sync_beep_3.tStartRefresh + .3-frameTolerance:
+            # keep track of stop time/frame for later
+            sync_beep_3.tStop = t  # not accounting for scr refresh
+            sync_beep_3.frameNStop = frameN  # exact frame index
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'sync_beep_3.stopped')
+            sync_beep_3.stop()
+    # start/stop sync_beep_4
+    if sync_beep_4.status == NOT_STARTED and tThisFlip >= 1.8-frameTolerance:
+        # keep track of start time/frame for later
+        sync_beep_4.frameNStart = frameN  # exact frame index
+        sync_beep_4.tStart = t  # local t and not account for scr refresh
+        sync_beep_4.tStartRefresh = tThisFlipGlobal  # on global time
+        # add timestamp to datafile
+        thisExp.addData('sync_beep_4.started', tThisFlipGlobal)
+        sync_beep_4.play(when=win)  # sync with win flip
+    if sync_beep_4.status == STARTED:
+        # is it time to stop? (based on global clock, using actual start)
+        if tThisFlipGlobal > sync_beep_4.tStartRefresh + 0.6-frameTolerance:
+            # keep track of stop time/frame for later
+            sync_beep_4.tStop = t  # not accounting for scr refresh
+            sync_beep_4.frameNStop = frameN  # exact frame index
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'sync_beep_4.stopped')
+            sync_beep_4.stop()
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        routineForceEnded = True
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in Sync_BeepsComponents:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# --- Ending Routine "Sync_Beeps" ---
+for thisComponent in Sync_BeepsComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+sync_beep_1.stop()  # ensure sound has stopped at end of routine
+sync_beep_2.stop()  # ensure sound has stopped at end of routine
+sync_beep_3.stop()  # ensure sound has stopped at end of routine
+sync_beep_4.stop()  # ensure sound has stopped at end of routine
+# using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+if routineForceEnded:
+    routineTimer.reset()
+else:
+    routineTimer.addTime(-2.400000)
+
+# --- Prepare to start Routine "Baseline_EMG" ---
+continueRoutine = True
+routineForceEnded = False
+# update component parameters for each repeat
+# keep track of which components have finished
+Baseline_EMGComponents = []
+for thisComponent in Baseline_EMGComponents:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+frameN = -1
+
+# --- Run Routine "Baseline_EMG" ---
+while continueRoutine:
+    # get current time
+    t = routineTimer.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        routineForceEnded = True
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in Baseline_EMGComponents:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# --- Ending Routine "Baseline_EMG" ---
+for thisComponent in Baseline_EMGComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+# Run 'End Routine' code from get_baseline_EMG
+RECORDING_STARTED = start_EMG_recording("Getting baseline")
+time.sleep(BASELINE_DURATION)
+stop_EMG_recording(RECORDING_STARTED)
+# the Routine "Baseline_EMG" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
+
 # --- Prepare to start Routine "Instructions" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 # keep track of which components have finished
 InstructionsComponents = [instructions]
@@ -622,7 +801,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Instructions" ---
-routineForceEnded = not continueRoutine
 while continueRoutine and routineTimer.getTime() < 4.0:
     # get current time
     t = routineTimer.getTime()
@@ -632,8 +810,6 @@ while continueRoutine and routineTimer.getTime() < 4.0:
     # update/draw components on each frame
     
     # *instructions* updates
-    
-    # if instructions is starting this frame...
     if instructions.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         instructions.frameNStart = frameN  # exact frame index
@@ -642,16 +818,7 @@ while continueRoutine and routineTimer.getTime() < 4.0:
         win.timeOnFlip(instructions, 'tStartRefresh')  # time at next scr refresh
         # add timestamp to datafile
         thisExp.timestampOnFlip(win, 'instructions.started')
-        # update status
-        instructions.status = STARTED
         instructions.setAutoDraw(True)
-    
-    # if instructions is active this frame...
-    if instructions.status == STARTED:
-        # update params
-        pass
-    
-    # if instructions is stopping this frame...
     if instructions.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
         if tThisFlipGlobal > instructions.tStartRefresh + 4.0-frameTolerance:
@@ -660,15 +827,11 @@ while continueRoutine and routineTimer.getTime() < 4.0:
             instructions.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'instructions.stopped')
-            # update status
-            instructions.status = FINISHED
             instructions.setAutoDraw(False)
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -713,14 +876,15 @@ for thisLoop in loop:
         for paramName in thisLoop:
             exec('{} = thisLoop[paramName]'.format(paramName))
     
-    # --- Prepare to start Routine "Image" ---
+    # --- Prepare to start Routine "View_Cross" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
-    disgust_image.setImage(disgust_image_paths.pop(0))
-    Disgust_Score.reset()
+    # Run 'Begin Routine' code from cross_EMG
+    RECORDING_STARTED = start_EMG_recording("Cross")
     # keep track of which components have finished
-    ImageComponents = [cross, disgust_image, Disgust_Score]
-    for thisComponent in ImageComponents:
+    View_CrossComponents = [cross]
+    for thisComponent in View_CrossComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
         thisComponent.tStartRefresh = None
@@ -732,9 +896,8 @@ for thisLoop in loop:
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
     
-    # --- Run Routine "Image" ---
-    routineForceEnded = not continueRoutine
-    while continueRoutine:
+    # --- Run Routine "View_Cross" ---
+    while continueRoutine and routineTimer.getTime() < 6.0:
         # get current time
         t = routineTimer.getTime()
         tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -743,8 +906,6 @@ for thisLoop in loop:
         # update/draw components on each frame
         
         # *cross* updates
-        
-        # if cross is starting this frame...
         if cross.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             cross.frameNStart = frameN  # exact frame index
@@ -753,84 +914,27 @@ for thisLoop in loop:
             win.timeOnFlip(cross, 'tStartRefresh')  # time at next scr refresh
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'cross.started')
-            # update status
-            cross.status = STARTED
             cross.setAutoDraw(True)
-        
-        # if cross is active this frame...
-        if cross.status == STARTED:
-            # update params
-            pass
-        
-        # if cross is stopping this frame...
         if cross.status == STARTED:
             # is it time to stop? (based on global clock, using actual start)
-            if tThisFlipGlobal > cross.tStartRefresh + 2.0-frameTolerance:
+            if tThisFlipGlobal > cross.tStartRefresh + 6.0-frameTolerance:
                 # keep track of stop time/frame for later
                 cross.tStop = t  # not accounting for scr refresh
                 cross.frameNStop = frameN  # exact frame index
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'cross.stopped')
-                # update status
-                cross.status = FINISHED
                 cross.setAutoDraw(False)
-        
-        # *disgust_image* updates
-        
-        # if disgust_image is starting this frame...
-        if disgust_image.status == NOT_STARTED and tThisFlip >= 2.5-frameTolerance:
-            # keep track of start time/frame for later
-            disgust_image.frameNStart = frameN  # exact frame index
-            disgust_image.tStart = t  # local t and not account for scr refresh
-            disgust_image.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(disgust_image, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'disgust_image.started')
-            # update status
-            disgust_image.status = STARTED
-            disgust_image.setAutoDraw(True)
-        
-        # if disgust_image is active this frame...
-        if disgust_image.status == STARTED:
-            # update params
-            pass
-        
-        # *Disgust_Score* updates
-        
-        # if Disgust_Score is starting this frame...
-        if Disgust_Score.status == NOT_STARTED and tThisFlip >= 6.5-frameTolerance:
-            # keep track of start time/frame for later
-            Disgust_Score.frameNStart = frameN  # exact frame index
-            Disgust_Score.tStart = t  # local t and not account for scr refresh
-            Disgust_Score.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(Disgust_Score, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'Disgust_Score.started')
-            # update status
-            Disgust_Score.status = STARTED
-            Disgust_Score.setAutoDraw(True)
-        
-        # if Disgust_Score is active this frame...
-        if Disgust_Score.status == STARTED:
-            # update params
-            pass
-        
-        # Check Disgust_Score for response to end routine
-        if Disgust_Score.getRating() is not None and Disgust_Score.status == STARTED:
-            continueRoutine = False
         
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
             routineForceEnded = True
             break
         continueRoutine = False  # will revert to True if at least one component still running
-        for thisComponent in ImageComponents:
+        for thisComponent in View_CrossComponents:
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
@@ -839,13 +943,166 @@ for thisLoop in loop:
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
-    # --- Ending Routine "Image" ---
-    for thisComponent in ImageComponents:
+    # --- Ending Routine "View_Cross" ---
+    for thisComponent in View_CrossComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    loop.addData('Disgust_Score.response', Disgust_Score.getRating())
-    loop.addData('Disgust_Score.rt', Disgust_Score.getRT())
-    # the Routine "Image" was not non-slip safe, so reset the non-slip timer
+    # Run 'End Routine' code from cross_EMG
+    stop_EMG_recording(RECORDING_STARTED)
+    # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+    if routineForceEnded:
+        routineTimer.reset()
+    else:
+        routineTimer.addTime(-6.000000)
+    
+    # --- Prepare to start Routine "View_Image" ---
+    continueRoutine = True
+    routineForceEnded = False
+    # update component parameters for each repeat
+    disgust_image.setImage(disgust_image_paths.pop(0))
+    # Run 'Begin Routine' code from image_EMG
+    RECORDING_STARTED = start_EMG_recording("Image")
+    # keep track of which components have finished
+    View_ImageComponents = [disgust_image]
+    for thisComponent in View_ImageComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "View_Image" ---
+    while continueRoutine and routineTimer.getTime() < 6.0:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *disgust_image* updates
+        if disgust_image.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            disgust_image.frameNStart = frameN  # exact frame index
+            disgust_image.tStart = t  # local t and not account for scr refresh
+            disgust_image.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(disgust_image, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'disgust_image.started')
+            disgust_image.setAutoDraw(True)
+        if disgust_image.status == STARTED:
+            # is it time to stop? (based on global clock, using actual start)
+            if tThisFlipGlobal > disgust_image.tStartRefresh + 6.0-frameTolerance:
+                # keep track of stop time/frame for later
+                disgust_image.tStop = t  # not accounting for scr refresh
+                disgust_image.frameNStop = frameN  # exact frame index
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'disgust_image.stopped')
+                disgust_image.setAutoDraw(False)
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            routineForceEnded = True
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in View_ImageComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "View_Image" ---
+    for thisComponent in View_ImageComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # Run 'End Routine' code from image_EMG
+    stop_EMG_recording(RECORDING_STARTED)
+    # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+    if routineForceEnded:
+        routineTimer.reset()
+    else:
+        routineTimer.addTime(-6.000000)
+    
+    # --- Prepare to start Routine "Score_Image" ---
+    continueRoutine = True
+    routineForceEnded = False
+    # update component parameters for each repeat
+    disgust_score.reset()
+    # keep track of which components have finished
+    Score_ImageComponents = [disgust_score]
+    for thisComponent in Score_ImageComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "Score_Image" ---
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *disgust_score* updates
+        if disgust_score.status == NOT_STARTED and tThisFlip >= 0-frameTolerance:
+            # keep track of start time/frame for later
+            disgust_score.frameNStart = frameN  # exact frame index
+            disgust_score.tStart = t  # local t and not account for scr refresh
+            disgust_score.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(disgust_score, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'disgust_score.started')
+            disgust_score.setAutoDraw(True)
+        
+        # Check disgust_score for response to end routine
+        if disgust_score.getRating() is not None and disgust_score.status == STARTED:
+            continueRoutine = False
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            routineForceEnded = True
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in Score_ImageComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "Score_Image" ---
+    for thisComponent in Score_ImageComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    loop.addData('disgust_score.response', disgust_score.getRating())
+    loop.addData('disgust_score.rt', disgust_score.getRT())
+    # the Routine "Score_Image" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     thisExp.nextEntry()
     
