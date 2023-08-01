@@ -33,11 +33,30 @@ HOST = "129.64.55.213"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
-# Read in the list of opponents for this subject.
-# This reads the text file where they are stored,
-# and reads them in as a Python list.
-with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
-    disgust_image_paths = json.loads(f.read())
+'''
+# Do the same procedure with emotion names and filenames.
+# First read in the entire list.
+with open(os.path.join("data", "emotions_A.txt"), "rt") as f:
+    emotions = json.loads(f.read())
+
+# Create empty lists for the names and filenames.
+emotion_names = []
+emotion_filenames = []
+
+# Break out the names and filenames into their own lists.
+for emotion in emotions:
+    emotion_names.append(emotion[0])
+    emotion_filenames.append(emotion[1])
+
+# Read in the list of bets (offers).
+with open(os.path.join("data", "bets_A.txt"), "rt") as f:
+    bets = list(json.loads(f.read()))
+
+# Read in the list of bet (offer) phrases--the long way of saying them.
+with open(os.path.join("data", "bet_phrases_A.txt"), "rt") as f:
+    bet_phrases = list(json.loads(f.read()))
+
+'''
 
 # Connect to the Brain Products Remote Control Server
 # API documentation at

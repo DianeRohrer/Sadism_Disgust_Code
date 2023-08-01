@@ -28,7 +28,11 @@ import os
 # The `random` library has all our randomization tools in it.
 import random
 
+# Total number of tastant blocks to be run in the gustatory condition
+N_TASTANT_BLOCKS = 5
+
 VISUAL_DIRNAME = "Images_Visual_Disgust"
+
 # Create a directory called `data` if it doesn't already exist
 os.makedirs("data", exist_ok=True)
 
@@ -116,9 +120,48 @@ with open(os.path.join("data", "disgust_images.txt"), "wt") as f:
 
 with open(os.path.join("data", f"disgust_images_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(disgust_image_paths))
+
+# Randomize the sequence of tastants
+####################################
+
+
+def has_back_to_back_quinine(tastant_list):
+    """
+    In a list of five tastants, check whether the two quinine conditions
+    are next to each other.
+    """
+    i_q_lo = tastant_list.index("low_quinine")
+    i_q_hi = tastant_list.index("high_quinine")
+    dist = abs(i_q_lo - i_q_hi)
+    # Only returns True if the two quinine conditions are
+    # one positions apart on the list.
+    return dist == 1
+
+
+tastants = []
+print()
+print("Tastant sequence for the Gustatory Condition")
+for i_block in range(N_TASTANT_BLOCKS):
+    block_tastants = [
+        "low_quinine",
+        "high_quinine",
+        "low_sucrose",
+        "high_sucrose",
+        "water",
+    ]
+    while has_back_to_back_quinine(block_tastants):
+        random.shuffle(block_tastants)
+    tastants.append(block_tastants)
+    print(f"  For block {i_block}")
+    print(block_tastants)
+
+with open(os.path.join("data", "tastants.txt"), "wt") as f:
+    f.write(json.dumps(tastants))
+
+with open(os.path.join("data", f"tastants_{subject_id}.txt"), "wt") as f:
+    f.write(json.dumps(tastants))
+
 '''
-# Total number of game rounds to be run
-N_GAMES = 12
 # Where to find the images we'll need
 OPPONENT_DIRNAME = "Virtual_Participant"
 EMOTION_DIRNAME = "Emotion_Faces"
@@ -198,156 +241,6 @@ with open(os.path.join("data", f"emotions_B_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(emotions_B))
 with open(os.path.join("data", f"emotions_C_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(emotions_C))
-
-
-# Randomize the sequence of tastants
-####################################
-# This is only needed for conditions A and C. Condition B is all water.
-# Each condition consists of 12 rounds of the game.
-# They get a new tastant each 2 rounds, for a total of 6 tastants
-# in each condition. For conditions A and C, these will be
-# 3 sucrose (S) and 3 quinine (Q) tastants. We want to impose the constraint
-# that a subject will never get quinine twice in a row. There are
-# four allowable sequences.
-# 1. QSQSQS
-# 2. QSQSSQ
-# 3. QSSQSQ
-# 4. SQSQSQ
-
-# Each sequence will have it's own
-# secret phrase and code
-#
-# tastant  secret phrase       code
-# ---------|-------------------|--------
-# quinine  "Enter passcode"    e
-# sucrose  "Enter passphrase"  p
-# water    "Enter password"    w
-
-q_phrase = "Enter passcode"
-s_phrase = "Enter passphrase"
-w_phrase = "Enter password"
-q_code = "e"
-s_code = "p"
-w_code = "w"
-
-# Create list of 4 different lists of secret phrases,
-# one for each of the four possible sequences.
-phrases = [
-    [q_phrase, s_phrase, q_phrase, s_phrase, q_phrase, s_phrase],
-    [q_phrase, s_phrase, q_phrase, s_phrase, s_phrase, q_phrase],
-    [q_phrase, s_phrase, s_phrase, q_phrase, s_phrase, q_phrase],
-    [s_phrase, q_phrase, s_phrase, q_phrase, s_phrase, q_phrase],
-]
-# For Condition B, we already know what the sequence will be
-water_phrases = [w_phrase, w_phrase, w_phrase, w_phrase, w_phrase, w_phrase]
-
-# Create a matching list of 4 different lists of secret codes,
-# one for each of the four possible sequences.
-codes = [
-    [q_code, s_code, q_code, s_code, q_code, s_code],
-    [q_code, s_code, q_code, s_code, s_code, q_code],
-    [q_code, s_code, s_code, q_code, s_code, q_code],
-    [s_code, q_code, s_code, q_code, s_code, q_code],
-]
-# Again, Condition B is boring
-water_codes = [w_code, w_code, w_code, w_code, w_code, w_code]
-
-# Also, make some easy to read messages for showing the experimenter
-# what the results are for Conditions A and C.
-messages = [
-    """tastant sequence:
-    1. Quinine
-    2. Sucrose
-    3. Quinine
-    4. Sucrose
-    5. Quinine
-    6. Sucrose""",
-    """tastant sequence:
-    1. Quinine
-    2. Sucrose
-    3. Quinine
-    4. Sucrose
-    5. Sucrose
-    6. Quinine""",
-    """tastant sequence:
-    1. Quinine
-    2. Sucrose
-    3. Sucrose
-    4. Quinine
-    5. Sucrose
-    6. Quinine""",
-    """tastant sequence:
-    1. Sucrose
-    2. Quinine
-    3. Sucrose
-    4. Quinine
-    5. Sucrose
-    6. Quinine""",
-]
-
-# Choose which of the 4 allowed quinine-sucrose sequences will be used.
-# They are numbered 0, 1, 2, 3.
-# `i_sequence` will be one of these.
-i_sequence = random.randint(0, 3)
-# Use the chosen sequence for Condition A
-print()
-print("Condition A", messages[i_sequence])
-tastant_phrases_A = phrases[i_sequence]
-tastant_codes_A = codes[i_sequence]
-
-tastant_phrases_B = water_phrases
-tastant_codes_B = water_codes
-
-# Randomly choose one of the four sequences again to use for Condition C.
-# A quarter of the time it will be the same one chosen for Condition A.
-i_sequence = random.randint(0, 3)
-print()
-print("Condition C", messages[i_sequence])
-tastant_phrases_C = phrases[i_sequence]
-tastant_codes_C = codes[i_sequence]
-
-# Use the same trick of saving two copies of everything.
-# Save the tastant_phrases and tastant_codes in separate files.
-# It ends up being a bit easier to work with later.
-with open(os.path.join("data", "tastant_phrases_A.txt"), "wt") as f:
-    f.write(json.dumps(tastant_phrases_A))
-with open(os.path.join("data", "tastant_phrases_B.txt"), "wt") as f:
-    f.write(json.dumps(tastant_phrases_B))
-with open(os.path.join("data", "tastant_phrases_C.txt"), "wt") as f:
-    f.write(json.dumps(tastant_phrases_C))
-
-with open(
-    os.path.join("data", f"tastant_phrases_A_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_phrases_A))
-with open(
-    os.path.join("data", f"tastant_phrases_B_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_phrases_B))
-with open(
-    os.path.join("data", f"tastant_phrases_C_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_phrases_C))
-
-with open(os.path.join("data", "tastant_codes_A.txt"), "wt") as f:
-    f.write(json.dumps(tastant_codes_A))
-with open(os.path.join("data", "tastant_codes_B.txt"), "wt") as f:
-    f.write(json.dumps(tastant_codes_B))
-with open(os.path.join("data", "tastant_codes_C.txt"), "wt") as f:
-    f.write(json.dumps(tastant_codes_C))
-
-with open(
-    os.path.join("data", f"tastant_codes_A_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_codes_A))
-with open(
-    os.path.join("data", f"tastant_codes_B_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_codes_B))
-with open(
-    os.path.join("data", f"tastant_codes_C_{subject_id}.txt"), "wt"
-) as f:
-    f.write(json.dumps(tastant_codes_C))
 
 
 # Generate randome bets

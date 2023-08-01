@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on Sun Jul 16 18:53:08 2023
+    on Tue Aug  1 18:17:05 2023
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -301,39 +301,6 @@ AMPLIFIER = "BrainAmp Family"
 # and reads them in as a Python list.
 with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
     disgust_image_paths = json.loads(f.read())
-
-'''
-# Do the same procedure with emotion names and filenames.
-# First read in the entire list.
-with open(os.path.join("data", "emotions_A.txt"), "rt") as f:
-    emotions = json.loads(f.read())
-
-# Create empty lists for the names and filenames.
-emotion_names = []
-emotion_filenames = []
-
-# Break out the names and filenames into their own lists.
-for emotion in emotions:
-    emotion_names.append(emotion[0])
-    emotion_filenames.append(emotion[1])
-
-# Read in the list of tastant phrases.
-with open(os.path.join("data", "tastant_phrases_A.txt"), "rt") as f:
-    tastant_phrases = list(json.loads(f.read()))
-
-# Read in the list of tastant codes.
-with open(os.path.join("data", "tastant_codes_A.txt"), "rt") as f:
-    tastant_codes = list(json.loads(f.read()))
-
-# Read in the list of bets (offers).
-with open(os.path.join("data", "bets_A.txt"), "rt") as f:
-    bets = list(json.loads(f.read()))
-
-# Read in the list of bet (offer) phrases--the long way of saying them.
-with open(os.path.join("data", "bet_phrases_A.txt"), "rt") as f:
-    bet_phrases = list(json.loads(f.read()))
-
-'''
 
 # Connect to the Brain Products Remote Control Server
 # API documentation at
