@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<PsychoPy2experiment encoding="utf-8" version="2022.2.5">
+<PsychoPy2experiment encoding="utf-8" version="2022.2.4">
   <Settings>
     <Param val="use prefs" valType="str" updates="None" name="Audio latency priority"/>
     <Param val="use prefs" valType="str" updates="None" name="Audio lib"/>
@@ -721,11 +721,11 @@
     </Routine>
   </Routines>
   <Flow>
-    <Routine name="Game_Start"/>
     <Routine name="Setup_Code"/>
-    <Routine name="Sit_Still"/>
     <Routine name="Sync_Beeps"/>
+    <Routine name="Sit_Still"/>
     <Routine name="Baseline_EMG"/>
+    <Routine name="Game_Start"/>
     <LoopInitiator loopType="TrialHandler" name="loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
