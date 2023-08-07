@@ -15,8 +15,6 @@
 # This will create and save the randomized conditions and offers
 # for this participant in a repeatable way.
 
-# import argparse
-
 # The `json` library has tools in it for converting data to and from
 # the JSON format--a useful way to store and read data.
 import json
@@ -31,20 +29,15 @@ import random
 # Total number of tastant blocks to be run in the gustatory condition
 N_TASTANT_BLOCKS = 5
 
+# Total number of games to be played by a participant
+N_GAMES = 20
+
 VISUAL_DIRNAME = "Images_Visual_Disgust"
 
 # Create a directory called `data` if it doesn't already exist
 os.makedirs("data", exist_ok=True)
 
 # Get the subject ID from the experimenter
-# parser = argparse.ArgumentParser()
-# parser.add_argument("subject_id", required=False)
-# args = parser.parse_args()
-# print(args.subject_id)
-# if len(args) > 0:
-#     subject_id = args.subject_id
-# else:
-
 print("Enter the subject ID")
 print("and then hit Enter")
 subject_id_input = input()
@@ -115,7 +108,7 @@ random.shuffle(disgust_image_paths)
 
 # Open up a text file for writing called `data/disgust_images.txt`.
 with open(os.path.join("data", "disgust_images.txt"), "wt") as f:
-    # Convert the list of opponents to a JSON and write it to the file.
+    # Convert the list of images to a JSON and write it to the file.
     f.write(json.dumps(disgust_image_paths))
 
 with open(os.path.join("data", f"disgust_images_{subject_id}.txt"), "wt") as f:
@@ -161,33 +154,81 @@ with open(os.path.join("data", "tastants.txt"), "wt") as f:
 with open(os.path.join("data", f"tastants_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(tastants))
 
-'''
 # Where to find the images we'll need
 OPPONENT_DIRNAME = "Virtual_Participant"
 EMOTION_DIRNAME = "Emotion_Faces"
 
+# Randomize the sequence of opponents.
+######################################
+# Read in the full set of opponents.
+# Start an empty list to keep them in.
+all_opponents = []
+# Get a list of all the filenames in the directory where opponent photos
+# are being stored.
+filenames = os.listdir(OPPONENT_DIRNAME)
+
+# Work on each file one at a time.
+for filename in filenames:
+    # Check whether it ends in `jpg`. This ignores any other
+    # extra files that might be present.
+    if filename[-3:] == "jpg":
+        # Pull out the opponent's name--everything that comes before the "."
+        # in the filename.
+        opponent_name = filename.split(".")[0]
+        # Put together the fill path name for the image--
+        # directory + filename.
+        # This is so that we can tell psychopy exactly where to look for it.
+        opponent_path = os.path.join(OPPONENT_DIRNAME, filename)
+        # Put the name and path together in the same data element
+        # (called a tuple) and add that tuple to the list of opponents.
+        all_opponents.append((opponent_name, opponent_path))
+
+# At this point, there is a list with one element per opponent,
+# and each element is tuple containing (name, path).
+
+# Make an empty list to fill for all games.
+opponents = []
+
+# Once for each game that will be played,
+# randomly choose one of the opponents and add it to the list.
+# The same opponent may occur twice in a row. The might not occur
+# at all. But their occurrences will all be random.
+# It's like rolling dice.
+for _ in range(N_GAMES):
+    opponents.append(random.choice(all_opponents))
+
+# Save two copies of the list of opponents.
+# One copy has the subject ID in the name and the other doesn't.
+# The copy with the subject ID gets kept, so we can refer back to it during
+# analysis.
+# The other copy gets over-written each time you run this `run_first.py`
+# This is where psychopy looks to get its randomizations. It always
+# contains the results of the most recent run.
+
+# Open up a text file for writing called `data/opponents_A.txt`.
+with open(os.path.join("data", "opponents.txt"), "wt") as f:
+    # Convert the list of opponents to a JSON and write it to the file.
+    f.write(json.dumps(opponents))
+
+with open(os.path.join("data", f"opponents_{subject_id}.txt"), "wt") as f:
+    f.write(json.dumps(opponents))
+
 # Randomize the sequence of emotions.
 #####################################
 
-# `ordered_emotions` is a list of lists.
-# The top level list has one element for each of 7 emotions.
-# The sub-lists are the filenames of the images showing that emotion.
-# Each sub-list has hone male and one female example of the emotion.
+# `ordered_emotions` is a list with one element for each of 7 emotions.
 ordered_emotions = [
-    ["E2_anger_m.jpg", "E3_anger_f.jpg"],
-    ["E9_contempt_m.jpg", "E11_contempt_f.jpg"],
-    ["E18_disgust_m.jpg", "E20_disgust_f.jpg"],
-    ["E26_fear_m.jpg", "E27_fear_f.jpg"],
-    ["E34_happy_m.jpg", "E35_happy_f.jpg"],
-    ["E42_sad_m.jpg", "E43_sad_f.jpg"],
-    ["E50_surprise_m.jpg", "E51_surprise_f.jpg"],
+    "E2_anger_m.jpg",
+    "E9_contempt_m.jpg",
+    "E18_disgust_m.jpg",
+    "E26_fear_m.jpg",
+    "E34_happy_m.jpg",
+    "E42_sad_m.jpg",
+    "E50_surprise_m.jpg",
 ]
 
-# Create three empty lists, one each for the sequence of emotion images
-# to come after each game.
-emotions_A = []
-emotions_B = []
-emotions_C = []
+# Create an empty list to hold the entire sequence of emotion images.
+emotions = []
 
 # Repeat this whole process once for each game
 for _ in range(N_GAMES):
@@ -199,48 +240,22 @@ for _ in range(N_GAMES):
     random.shuffle(ordered_emotions)
 
     # Go through the shuffled list of emotions
-    for emotion_mf in ordered_emotions:
-        # Flip a coin whether to choose the male or female example of each one
-        emotion_filename = random.choice(emotion_mf)
+    for emotion_filename in ordered_emotions:
         # Pull the emotion name out of the filename by grabbing
         # the portion that comes between the two underscores.
         emotion_name = emotion_filename.split("_")[1]
         # Create the full file path to the image.
         emotion_path = os.path.join(EMOTION_DIRNAME, emotion_filename)
         # Add to the list of emotions a tuple of (name, path).
-        emotions_A.append((emotion_name, emotion_path))
-
-    # Do same for Condition B
-    random.shuffle(ordered_emotions)
-    for emotion_mf in ordered_emotions:
-        emotion_filename = random.choice(emotion_mf)
-        emotion_name = emotion_filename.split("_")[1]
-        emotion_path = os.path.join(EMOTION_DIRNAME, emotion_filename)
-        emotions_B.append((emotion_name, emotion_path))
-
-    # Do same for Condition C
-    random.shuffle(ordered_emotions)
-    for emotion_mf in ordered_emotions:
-        emotion_filename = random.choice(emotion_mf)
-        emotion_name = emotion_filename.split("_")[1]
-        emotion_path = os.path.join(EMOTION_DIRNAME, emotion_filename)
-        emotions_C.append((emotion_name, emotion_path))
+        emotions.append((emotion_name, emotion_path))
 
 # As with the opponents, save two versions of each list,
 # one with the subject ID and one without.
-with open(os.path.join("data", "emotions_A.txt"), "wt") as f:
-    f.write(json.dumps(emotions_A))
-with open(os.path.join("data", "emotions_B.txt"), "wt") as f:
-    f.write(json.dumps(emotions_B))
-with open(os.path.join("data", "emotions_C.txt"), "wt") as f:
-    f.write(json.dumps(emotions_C))
+with open(os.path.join("data", "emotions.txt"), "wt") as f:
+    f.write(json.dumps(emotions))
 
-with open(os.path.join("data", f"emotions_A_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(emotions_A))
-with open(os.path.join("data", f"emotions_B_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(emotions_B))
-with open(os.path.join("data", f"emotions_C_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(emotions_C))
+with open(os.path.join("data", f"emotions_{subject_id}.txt"), "wt") as f:
+    f.write(json.dumps(emotions))
 
 
 # Generate randome bets
@@ -253,7 +268,7 @@ bet_phrase = {
     "91": "Proposer gets 9 dollars\n\nYou get 1 dollar",
 }
 
-
+'''
 def generate_quinine_bets():
     """
     This function makes a pair of bets for when quinine is used.
@@ -285,6 +300,7 @@ def generate_quinine_bets():
     random.shuffle(bets)
 
     return bets
+'''
 
 
 def generate_sucrose_water_bets():
@@ -313,80 +329,36 @@ def generate_sucrose_water_bets():
     return offer_pair
 
 
-def generate_bets(tastant_codes):
-    """
-    This function goes through the sequence of 6 tastant codes
-    for the condition. For each one it generates a pair of offers,
-    appropriately distributed for the tastant.
-    """
-    # Start with an empty list to add to
+def generate_bets():
+    # Start with an empty list to add it.
     bets = []
-    # Look at each tastant code one at a time
-    for tastant_code in tastant_codes:
-        if tastant_code == "e":
-            # "e" corresponds to quinine.
-            # Append the two new quinine offers to the running list.
-            bets = bets + generate_quinine_bets()
-
-        else:
-            # If it's not quinine, it's either water or sucrose.
-            # They get handles the same.
-            # Append the two new water/sucrose offers to the running list.
-            bets = bets + generate_sucrose_water_bets()
+    for _ in range(N_GAMES):
+        bets = bets + generate_sucrose_water_bets()
     return bets
 
 
-# For each condition, generate a list offers that is consistent with
-# its sequence of tastant codes.
-bets_A = generate_bets(tastant_codes_A)
-bets_B = generate_bets(tastant_codes_B)
-bets_C = generate_bets(tastant_codes_C)
+# Generate a randomized list offers.
+bets = generate_bets()
 
-# Now bets_A, _B, _C are each 12-element lists of offers.
+# Now bets is a lists of offers.
 
 # For each offer in the game find the phrase to express it,
 # and create a new list that has all these phrases in it.
-# Repeat for each Condition.
-bet_phrases_A = [bet_phrase[bet] for bet in bets_A]
-bet_phrases_B = [bet_phrase[bet] for bet in bets_B]
-bet_phrases_C = [bet_phrase[bet] for bet in bets_C]
+bet_phrases = [bet_phrase[bet] for bet in bets]
 
-# Now bet_phrases_A, _B, _C are each 12-element lists of English sentences,
+# Now bet_phrases is a list of English sentences,
 # each describing the offer for the game it corresponds to.
-
-# Add a dummy phrase onto the end of `bet_phrases` so that
-# psychopy will not crash.
-# bet_phrases_A.append("All bets have been made")
-# bet_phrases_B.append("All bets have been made")
-# bet_phrases_C.append("All bets have been made")
 
 # Same trick. Save copies of bets and bet_phrases for all conditions
 # in two versions, one with subject ID and one without.
-with open(os.path.join("data", "bets_A.txt"), "wt") as f:
-    f.write(json.dumps(bets_A))
-with open(os.path.join("data", "bets_B.txt"), "wt") as f:
-    f.write(json.dumps(bets_B))
-with open(os.path.join("data", "bets_C.txt"), "wt") as f:
-    f.write(json.dumps(bets_C))
+with open(os.path.join("data", "bets.txt"), "wt") as f:
+    f.write(json.dumps(bets))
 
-with open(os.path.join("data", f"bets_A_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bets_A))
-with open(os.path.join("data", f"bets_B_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bets_B))
-with open(os.path.join("data", f"bets_C_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bets_C))
+with open(os.path.join("data", f"bets_{subject_id}.txt"), "wt") as f:
+    f.write(json.dumps(bets))
 
-with open(os.path.join("data", "bet_phrases_A.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_A))
-with open(os.path.join("data", "bet_phrases_B.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_B))
-with open(os.path.join("data", "bet_phrases_C.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_C))
+with open(os.path.join("data", "bet_phrases.txt"), "wt") as f:
+    f.write(json.dumps(bet_phrases))
 
-with open(os.path.join("data", f"bet_phrases_A_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_A))
-with open(os.path.join("data", f"bet_phrases_B_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_B))
-with open(os.path.join("data", f"bet_phrases_C_{subject_id}.txt"), "wt") as f:
-    f.write(json.dumps(bet_phrases_C))
-'''
+with open(os.path.join("data", f"bet_phrases_{subject_id}.txt"), "wt") as f:
+    f.write(json.dumps(bet_phrases))
