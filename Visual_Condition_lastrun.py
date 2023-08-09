@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
-    on Mon Aug  7 15:02:55 2023
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
+    on Mon Aug  7 17:07:00 2023
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +35,7 @@ from psychopy.hardware import keyboard
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2022.2.4'
+psychopyVersion = '2022.2.5'
 expName = 'Visual_Condition'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/themorrigan/Desktop/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
+    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -108,22 +108,16 @@ connecting_message = visual.TextStim(win=win, name='connecting_message',
 # --- Initialize components for Routine "Setup_Code" ---
 
 # --- Initialize components for Routine "Sync_Beeps" ---
-sync_beep_1 = sound.Sound('400', secs=0.3, stereo=True, hamming=True,
+sync_beep_1 = sound.Sound('400', secs=0.4, stereo=True, hamming=True,
     name='sync_beep_1')
 sync_beep_1.setVolume(1.0)
-sync_beep_2 = sound.Sound('400', secs=0.3, stereo=True, hamming=True,
+sync_beep_2 = sound.Sound('400', secs=0.4, stereo=True, hamming=True,
     name='sync_beep_2')
 sync_beep_2.setVolume(1.0)
-sync_beep_3 = sound.Sound('400', secs=.3, stereo=True, hamming=True,
-    name='sync_beep_3')
-sync_beep_3.setVolume(1.0)
-sync_beep_4 = sound.Sound('800', secs=0.6, stereo=True, hamming=True,
-    name='sync_beep_4')
-sync_beep_4.setVolume(1.0)
 
 # --- Initialize components for Routine "Sit_Still" ---
 textbox = visual.TextBox2(
-     win, text='Please relax and sit still for the next 30 seconds', font='Open Sans',
+     win, text='Please relax and sit still for the next 20 seconds', font='Open Sans',
      pos=(0, 0),     letterHeight=0.05,
      size=(None, None), borderWidth=2.0,
      color='white', colorSpace='rgb',
@@ -143,12 +137,13 @@ textbox = visual.TextBox2(
 
 # --- Initialize components for Routine "Instructions" ---
 instructions = visual.TextStim(win=win, name='instructions',
-    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.',
+    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.\n\nHit the space bar to begin.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
+key_resp = keyboard.Keyboard()
 
 # --- Initialize components for Routine "View_Cross" ---
 cross = visual.ShapeStim(
@@ -163,7 +158,7 @@ disgust_image = visual.ImageStim(
     win=win,
     name='disgust_image', 
     image='sin', mask=None, anchor='center',
-    ori=0.0, pos=(0, .25), size=(0.5, 0.5),
+    ori=0.0, pos=(0, 0), size=(0.5, 0.5),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=0.0)
@@ -283,7 +278,7 @@ TIMEOUT = 4
 # During the actual experiment this will be 60 seconds.
 # While we're still testing things, it's convenient to have this
 # be shorter so we don't have to wait so long each time the experiment runs.
-BASELINE_DURATION = 30
+BASELINE_DURATION = 20
 
 # These are for tracking when recording starts
 # so that we can measure how long it actually happened
@@ -296,6 +291,8 @@ HOST = "129.64.55.213"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
+expInfo['session'] = "Visual"
+ 
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
 # and reads them in as a Python list.
@@ -482,16 +479,12 @@ routineTimer.reset()
 continueRoutine = True
 routineForceEnded = False
 # update component parameters for each repeat
-sync_beep_1.setSound('400', secs=0.3, hamming=True)
+sync_beep_1.setSound('400', secs=0.4, hamming=True)
 sync_beep_1.setVolume(1.0, log=False)
-sync_beep_2.setSound('400', secs=0.3, hamming=True)
+sync_beep_2.setSound('400', secs=0.4, hamming=True)
 sync_beep_2.setVolume(1.0, log=False)
-sync_beep_3.setSound('400', secs=.3, hamming=True)
-sync_beep_3.setVolume(1.0, log=False)
-sync_beep_4.setSound('800', secs=0.6, hamming=True)
-sync_beep_4.setVolume(1.0, log=False)
 # keep track of which components have finished
-Sync_BeepsComponents = [sync_beep_1, sync_beep_2, sync_beep_3, sync_beep_4]
+Sync_BeepsComponents = [sync_beep_1, sync_beep_2]
 for thisComponent in Sync_BeepsComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -505,7 +498,7 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Sync_Beeps" ---
-while continueRoutine and routineTimer.getTime() < 2.4:
+while continueRoutine and routineTimer.getTime() < 1.1:
     # get current time
     t = routineTimer.getTime()
     tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -523,7 +516,7 @@ while continueRoutine and routineTimer.getTime() < 2.4:
         sync_beep_1.play(when=win)  # sync with win flip
     if sync_beep_1.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > sync_beep_1.tStartRefresh + 0.3-frameTolerance:
+        if tThisFlipGlobal > sync_beep_1.tStartRefresh + 0.4-frameTolerance:
             # keep track of stop time/frame for later
             sync_beep_1.tStop = t  # not accounting for scr refresh
             sync_beep_1.frameNStop = frameN  # exact frame index
@@ -531,7 +524,7 @@ while continueRoutine and routineTimer.getTime() < 2.4:
             thisExp.timestampOnFlip(win, 'sync_beep_1.stopped')
             sync_beep_1.stop()
     # start/stop sync_beep_2
-    if sync_beep_2.status == NOT_STARTED and tThisFlip >= 0.6-frameTolerance:
+    if sync_beep_2.status == NOT_STARTED and tThisFlip >= 0.7-frameTolerance:
         # keep track of start time/frame for later
         sync_beep_2.frameNStart = frameN  # exact frame index
         sync_beep_2.tStart = t  # local t and not account for scr refresh
@@ -541,49 +534,13 @@ while continueRoutine and routineTimer.getTime() < 2.4:
         sync_beep_2.play(when=win)  # sync with win flip
     if sync_beep_2.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > sync_beep_2.tStartRefresh + 0.3-frameTolerance:
+        if tThisFlipGlobal > sync_beep_2.tStartRefresh + 0.4-frameTolerance:
             # keep track of stop time/frame for later
             sync_beep_2.tStop = t  # not accounting for scr refresh
             sync_beep_2.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'sync_beep_2.stopped')
             sync_beep_2.stop()
-    # start/stop sync_beep_3
-    if sync_beep_3.status == NOT_STARTED and tThisFlip >= 1.2-frameTolerance:
-        # keep track of start time/frame for later
-        sync_beep_3.frameNStart = frameN  # exact frame index
-        sync_beep_3.tStart = t  # local t and not account for scr refresh
-        sync_beep_3.tStartRefresh = tThisFlipGlobal  # on global time
-        # add timestamp to datafile
-        thisExp.addData('sync_beep_3.started', tThisFlipGlobal)
-        sync_beep_3.play(when=win)  # sync with win flip
-    if sync_beep_3.status == STARTED:
-        # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > sync_beep_3.tStartRefresh + .3-frameTolerance:
-            # keep track of stop time/frame for later
-            sync_beep_3.tStop = t  # not accounting for scr refresh
-            sync_beep_3.frameNStop = frameN  # exact frame index
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'sync_beep_3.stopped')
-            sync_beep_3.stop()
-    # start/stop sync_beep_4
-    if sync_beep_4.status == NOT_STARTED and tThisFlip >= 1.8-frameTolerance:
-        # keep track of start time/frame for later
-        sync_beep_4.frameNStart = frameN  # exact frame index
-        sync_beep_4.tStart = t  # local t and not account for scr refresh
-        sync_beep_4.tStartRefresh = tThisFlipGlobal  # on global time
-        # add timestamp to datafile
-        thisExp.addData('sync_beep_4.started', tThisFlipGlobal)
-        sync_beep_4.play(when=win)  # sync with win flip
-    if sync_beep_4.status == STARTED:
-        # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > sync_beep_4.tStartRefresh + 0.6-frameTolerance:
-            # keep track of stop time/frame for later
-            sync_beep_4.tStop = t  # not accounting for scr refresh
-            sync_beep_4.frameNStop = frameN  # exact frame index
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'sync_beep_4.stopped')
-            sync_beep_4.stop()
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -609,13 +566,11 @@ for thisComponent in Sync_BeepsComponents:
         thisComponent.setAutoDraw(False)
 sync_beep_1.stop()  # ensure sound has stopped at end of routine
 sync_beep_2.stop()  # ensure sound has stopped at end of routine
-sync_beep_3.stop()  # ensure sound has stopped at end of routine
-sync_beep_4.stop()  # ensure sound has stopped at end of routine
 # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
 if routineForceEnded:
     routineTimer.reset()
 else:
-    routineTimer.addTime(-2.400000)
+    routineTimer.addTime(-1.100000)
 
 # --- Prepare to start Routine "Sit_Still" ---
 continueRoutine = True
@@ -753,8 +708,11 @@ routineTimer.reset()
 continueRoutine = True
 routineForceEnded = False
 # update component parameters for each repeat
+key_resp.keys = []
+key_resp.rt = []
+_key_resp_allKeys = []
 # keep track of which components have finished
-InstructionsComponents = [instructions]
+InstructionsComponents = [instructions, key_resp]
 for thisComponent in InstructionsComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -768,7 +726,7 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Instructions" ---
-while continueRoutine and routineTimer.getTime() < 4.0:
+while continueRoutine:
     # get current time
     t = routineTimer.getTime()
     tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -788,13 +746,37 @@ while continueRoutine and routineTimer.getTime() < 4.0:
         instructions.setAutoDraw(True)
     if instructions.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > instructions.tStartRefresh + 4.0-frameTolerance:
+        if tThisFlipGlobal > instructions.tStartRefresh + 100-frameTolerance:
             # keep track of stop time/frame for later
             instructions.tStop = t  # not accounting for scr refresh
             instructions.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'instructions.stopped')
             instructions.setAutoDraw(False)
+    
+    # *key_resp* updates
+    waitOnFlip = False
+    if key_resp.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        key_resp.frameNStart = frameN  # exact frame index
+        key_resp.tStart = t  # local t and not account for scr refresh
+        key_resp.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
+        # add timestamp to datafile
+        thisExp.timestampOnFlip(win, 'key_resp.started')
+        key_resp.status = STARTED
+        # keyboard checking is just starting
+        waitOnFlip = True
+        win.callOnFlip(key_resp.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(key_resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if key_resp.status == STARTED and not waitOnFlip:
+        theseKeys = key_resp.getKeys(keyList=['space'], waitRelease=False)
+        _key_resp_allKeys.extend(theseKeys)
+        if len(_key_resp_allKeys):
+            key_resp.keys = _key_resp_allKeys[-1].name  # just the last key pressed
+            key_resp.rt = _key_resp_allKeys[-1].rt
+            # a response ends the routine
+            continueRoutine = False
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -818,11 +800,15 @@ while continueRoutine and routineTimer.getTime() < 4.0:
 for thisComponent in InstructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
-# using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-if routineForceEnded:
-    routineTimer.reset()
-else:
-    routineTimer.addTime(-4.000000)
+# check responses
+if key_resp.keys in ['', [], None]:  # No response was made
+    key_resp.keys = None
+thisExp.addData('key_resp.keys',key_resp.keys)
+if key_resp.keys != None:  # we had a response
+    thisExp.addData('key_resp.rt', key_resp.rt)
+thisExp.nextEntry()
+# the Routine "Instructions" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 loop = data.TrialHandler(nReps=63.0, method='sequential', 

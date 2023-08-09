@@ -33,6 +33,8 @@ HOST = "129.64.55.213"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
+expInfo['session'] = "Visual"
+
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
 # and reads them in as a Python list.

@@ -145,7 +145,7 @@ for i_block in range(N_TASTANT_BLOCKS):
     while has_back_to_back_quinine(block_tastants):
         random.shuffle(block_tastants)
     tastants.append(block_tastants)
-    print(f"  For block {i_block}")
+    print(f"  For block {i_block + 1}")
     print(block_tastants)
 
 with open(os.path.join("data", "tastants.txt"), "wt") as f:

@@ -19,7 +19,7 @@ TIMEOUT = 4
 # During the actual experiment this will be 60 seconds.
 # While we're still testing things, it's convenient to have this
 # be shorter so we don't have to wait so long each time the experiment runs.
-BASELINE_DURATION = 30
+BASELINE_DURATION = 20
 
 # These are for tracking when recording starts
 # so that we can measure how long it actually happened
@@ -32,6 +32,7 @@ HOST = "129.64.55.213"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
+expInfo['session'] = "Moral"
 
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
