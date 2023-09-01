@@ -1,0 +1,5 @@
+﻿loop.thisRepN,loop.thisTrialN,loop.thisN,loop.thisIndex,connecting_message.started,sync_beep_1.started,sync_beep_2.started,textbox.started,instructions.started,key_resp.started,key_resp.keys,key_resp.rt,cross.started,disgust_image.started,disgust_score.started,disgust_score.response,disgust_score.rt,participant,session,date,expName,psychopyVersion,frameRate,
+,,,,16.358368099667132,44.76538488110528,45.463918619975445,45.88225119980052,66.63044560002163,66.63044560002163,space,12.038089599926025,,,,,,1000,Visual,2023-09-01_14h11.12.270,Visual_Condition,2022.2.4,60.0257390092636,
+0,0,0,0,,,,,,,,,78.84561359975487,85.01235739979893,90.8240990000777,1.0,2.6105785998515785,1000,Visual,2023-09-01_14h11.12.270,Visual_Condition,2022.2.4,60.0257390092636,
+1,0,1,0,,,,,,,,,93.55485309986398,99.75753559963778,105.5614835000597,3.0,2.180638200137764,1000,Visual,2023-09-01_14h11.12.270,Visual_Condition,2022.2.4,60.0257390092636,
+,,,,,,,,,,,,107.8808603999205,,,,,,,,,,,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
-    on August 18, 2023, at 14:46
+    on September 01, 2023, at 14:05
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -374,8 +374,9 @@ RECORDING_STARTED = 0
 
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
-WORKSPACE = "C:/Vision/Workfiles/workspaces/Moral Disgust.rwksp"
-HOST = "129.64.55.203"
+# WORKSPACE = "C:/Vision/Workfiles/workspaces/Sadism Disgust.rwksp"
+WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
+HOST = "129.64.55.47"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 

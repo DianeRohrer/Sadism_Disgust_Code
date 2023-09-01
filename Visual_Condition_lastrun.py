@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on Mon Aug  7 17:07:00 2023
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
+    on September 01, 2023, at 14:10
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +35,7 @@ from psychopy.hardware import keyboard
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2022.2.5'
+psychopyVersion = '2022.2.4'
 expName = 'Visual_Condition'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
+    originPath='C:\\Users\\rohre\\Local\\Sadism_Disgust_Code\\Visual_Condition_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -137,7 +137,7 @@ textbox = visual.TextBox2(
 
 # --- Initialize components for Routine "Instructions" ---
 instructions = visual.TextStim(win=win, name='instructions',
-    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.\n\nHit the space bar to begin.',
+    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
@@ -286,8 +286,8 @@ RECORDING_STARTED = 0
 
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
-WORKSPACE = "C:/Vision/Workfiles/workspaces/Sadism Disgust.rwksp"
-HOST = "129.64.55.213"
+WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
+HOST = "129.64.55.47"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
