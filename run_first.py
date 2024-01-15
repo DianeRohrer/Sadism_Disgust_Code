@@ -107,11 +107,14 @@ random.shuffle(disgust_image_paths)
 # contains the results of the most recent run.
 
 # Open up a text file for writing called `data/disgust_images.txt`.
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "disgust_images.txt"), "wt") as f:
-    # Convert the list of images to a JSON and write it to the file.
     f.write(json.dumps(disgust_image_paths))
+'''
 
 with open(os.path.join("data", f"disgust_images_{subject_id}.txt"), "wt") as f:
+    # Convert the list of images to a JSON and write it to the file.
     f.write(json.dumps(disgust_image_paths))
 
 # Randomize the sequence of tastants
@@ -148,9 +151,11 @@ for i_block in range(N_TASTANT_BLOCKS):
     print(f"  For block {i_block + 1}")
     print(block_tastants)
 
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "tastants.txt"), "wt") as f:
     f.write(json.dumps(tastants))
-
+'''
 with open(os.path.join("data", f"tastants_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(tastants))
 
@@ -206,11 +211,13 @@ for _ in range(N_GAMES):
 # contains the results of the most recent run.
 
 # Open up a text file for writing called `data/opponents_A.txt`.
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "opponents.txt"), "wt") as f:
-    # Convert the list of opponents to a JSON and write it to the file.
     f.write(json.dumps(opponents))
-
+'''
 with open(os.path.join("data", f"opponents_{subject_id}.txt"), "wt") as f:
+    # Convert the list of opponents to a JSON and write it to the file.
     f.write(json.dumps(opponents))
 
 # Randomize the sequence of emotions.
@@ -251,9 +258,11 @@ for _ in range(N_GAMES):
 
 # As with the opponents, save two versions of each list,
 # one with the subject ID and one without.
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "emotions.txt"), "wt") as f:
     f.write(json.dumps(emotions))
-
+'''
 with open(os.path.join("data", f"emotions_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(emotions))
 
@@ -351,14 +360,17 @@ bet_phrases = [bet_phrase[bet] for bet in bets]
 
 # Same trick. Save copies of bets and bet_phrases for all conditions
 # in two versions, one with subject ID and one without.
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "bets.txt"), "wt") as f:
     f.write(json.dumps(bets))
-
+'''
 with open(os.path.join("data", f"bets_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(bets))
-
+'''
+# Commented out to avoid saving data with ambiguous subject id.
 with open(os.path.join("data", "bet_phrases.txt"), "wt") as f:
     f.write(json.dumps(bet_phrases))
-
+'''
 with open(os.path.join("data", f"bet_phrases_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(bet_phrases))

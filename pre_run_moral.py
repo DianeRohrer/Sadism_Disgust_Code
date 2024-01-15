@@ -27,8 +27,8 @@ RECORDING_STARTED = 0
 
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
-WORKSPACE = "C:/Vision/Workfiles/workspaces/Sadism Disgust.rwksp"
-HOST = "129.64.55.213"
+WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
+HOST = "172.20.71.7"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
@@ -37,7 +37,9 @@ expInfo['session'] = "Moral"
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
 # and reads them in as a Python list.
-with open(os.path.join("data", "opponents.txt"), "rt") as f:
+subject_id = expInfo['participant']
+# with open(os.path.join("data", "opponents.txt"), "rt") as f:
+with open(os.path.join("data", f"opponents_{subject_id}.txt"), "rt") as f:
     opponents = json.loads(f.read())
 
 # Create empty lists for both the opponents' names
@@ -56,7 +58,8 @@ for opponent in opponents:
 
 # Do the same procedure with emotion names and filenames.
 # First read in the entire list.
-with open(os.path.join("data", "emotions.txt"), "rt") as f:
+# with open(os.path.join("data", "emotions.txt"), "rt") as f:
+with open(os.path.join("data", f"emotions_{subject_id}.txt"), "rt") as f:
     emotions = json.loads(f.read())
 
 # Create empty lists for the names and filenames.
@@ -69,11 +72,13 @@ for emotion in emotions:
     emotion_filenames.append(emotion[1])
 
 # Read in the list of bets (offers).
-with open(os.path.join("data", "bets.txt"), "rt") as f:
+# with open(os.path.join("data", "bets.txt"), "rt") as f:
+with open(os.path.join("data", f"bets_{subject_id}.txt"), "rt") as f:
     bets = list(json.loads(f.read()))
 
 # Read in the list of bet (offer) phrases--the long way of saying them.
-with open(os.path.join("data", "bet_phrases.txt"), "rt") as f:
+# with open(os.path.join("data", "bet_phrases.txt"), "rt") as f:
+with open(os.path.join("data", f"bet_phrases_{subject_id}.txt"), "rt") as f:
     bet_phrases = list(json.loads(f.read()))
 
 

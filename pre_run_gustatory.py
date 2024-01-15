@@ -28,8 +28,8 @@ RECORDING_STARTED = 0
 
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
-WORKSPACE = "C:/Vision/Workfiles/workspaces/Sadism Disgust.rwksp"
-HOST = "129.64.55.213"
+WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
+HOST = "172.20.71.7"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 

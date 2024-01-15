@@ -28,8 +28,8 @@ RECORDING_STARTED = 0
 
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
-WORKSPACE = "C:/Vision/Workfiles/workspaces/Sadism Disgust.rwksp"
-HOST = "129.64.55.213"
+WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
+HOST = "172.20.71.7"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
@@ -38,7 +38,9 @@ expInfo['session'] = "Visual"
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
 # and reads them in as a Python list.
-with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
+subject_id = expInfo['participant']
+# with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
+with open(os.path.join("data", f"disgust_images_{subject_id}.txt"), "rt") as f:
     disgust_image_paths = json.loads(f.read())
 
 # Connect to the Brain Products Remote Control Server

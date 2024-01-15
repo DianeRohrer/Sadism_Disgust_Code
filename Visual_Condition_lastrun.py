@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
-    on September 01, 2023, at 14:10
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
+    on Mon Jan 15 17:14:37 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +35,7 @@ from psychopy.hardware import keyboard
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2022.2.4'
+psychopyVersion = '2022.2.5'
 expName = 'Visual_Condition'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\rohre\\Local\\Sadism_Disgust_Code\\Visual_Condition_lastrun.py',
+    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -137,7 +137,7 @@ textbox = visual.TextBox2(
 
 # --- Initialize components for Routine "Instructions" ---
 instructions = visual.TextStim(win=win, name='instructions',
-    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.',
+    text='In this portion of the experiment you will view a series of images and be asked to rate how disgusting you find each image using the scale under the image.\n\nPress space bar to begin.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
@@ -278,7 +278,7 @@ TIMEOUT = 4
 # During the actual experiment this will be 60 seconds.
 # While we're still testing things, it's convenient to have this
 # be shorter so we don't have to wait so long each time the experiment runs.
-BASELINE_DURATION = 20
+BASELINE_DURATION = 30
 
 # These are for tracking when recording starts
 # so that we can measure how long it actually happened
@@ -287,16 +287,18 @@ RECORDING_STARTED = 0
 # All these settings tell Python where to find the RCS program
 # running on the recording computer.
 WORKSPACE = "C:/Vision/Workfiles/Sadism Disgust.rwksp"
-HOST = "129.64.55.47"
+HOST = "172.20.71.7"
 PORT = 6700
 AMPLIFIER = "BrainAmp Family"
 
 expInfo['session'] = "Visual"
- 
+
 # Read in the list of opponents for this subject.
 # This reads the text file where they are stored,
 # and reads them in as a Python list.
-with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
+subject_id = expInfo['participant']
+# with open(os.path.join("data", "disgust_images.txt"), "rt") as f:
+with open(os.path.join("data", f"disgust_images_{subject_id}.txt"), "rt") as f:
     disgust_image_paths = json.loads(f.read())
 
 # Connect to the Brain Products Remote Control Server
@@ -427,6 +429,7 @@ def stop_EMG_recording(recording_stop_time):
     else:
         # Pause the recording.
         RCS.pauseRecording()
+
 # keep track of which components have finished
 Setup_CodeComponents = []
 for thisComponent in Setup_CodeComponents:
