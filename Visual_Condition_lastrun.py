@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on Mon Jan 15 17:14:37 2024
+    on Tue Jan 30 18:46:35 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -268,7 +268,7 @@ import time
 # experiments with just pretend EMG recording.
 # But if we're in the lab, we absolutely want to stop everything
 # if there's a problem with the EMG recording and figure out what's wrong.
-TESTING_AT_HOME = True
+TESTING_AT_HOME = False
 
 # How many seconds to wait before deciding that the recording computer
 # can't be reached.
