@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on Sat Feb 10 16:30:12 2024
+    on February 12, 2024, at 11:00
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/hopswork/projects/Sadism_Disgust_Code/Visual_Condition_v2_lastrun.py',
+    originPath='C:\\Users\\simla\\Documents\\GitHub\\Sadism_Disgust_Code\\Visual_Condition_v2_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -155,7 +155,7 @@ cross = visual.ShapeStim(
     lineWidth=1.0,     colorSpace='rgb',  lineColor='white', fillColor='white',
     opacity=None, depth=0.0, interpolate=True)
 p_port_6 = parallel.ParallelPort(address='0x3FF8')
-p_port_7 = parallel.ParallelPort(address='0x0378')
+p_port_7 = parallel.ParallelPort(address='0x3FF8')
 
 # --- Initialize components for Routine "View_Image" ---
 disgust_image = visual.ImageStim(

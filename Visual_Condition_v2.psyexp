@@ -401,7 +401,7 @@
         <Param val="False" valType="bool" updates="None" name="syncScreenRefresh"/>
       </ParallelOutComponent>
       <ParallelOutComponent name="p_port_7">
-        <Param val="0x0378" valType="str" updates="None" name="address"/>
+        <Param val="0x3FF8" valType="str" updates="None" name="address"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="p_port_7" valType="code" updates="None" name="name"/>
