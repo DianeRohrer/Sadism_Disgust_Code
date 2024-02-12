@@ -76,13 +76,8 @@ def main():
     This is the top level function responsible for displaying the EMG data.
     """
     # Get the subject ID and get the filenames of the data associated with it.
-    # subject_id = get_subject_id()
-    # vhdr_filenames = get_vhdr_filenames(subject_id)
-    vhdr_filenames = [
-        "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study/parallel_port_test4.vhdr",
-        "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study/parallel_port_test5.vhdr",
-        "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study/parallel_port_test6.vhdr",
-    ]
+    subject_id = get_subject_id()
+    vhdr_filenames = get_vhdr_filenames(subject_id)
 
     # If there is more than one EMG filename associated with this subject,
     # handle them each one at a time.
@@ -328,5 +323,4 @@ def show_emg(cor, ll, mas, zyg, time, i_starts, i_labels, labels, vhdr_name):
     plt.savefig(filename)
 
 
-        '''
 main()
