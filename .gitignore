@@ -1,6 +1,7 @@
 archive/
 plots/
 rcs_version/
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -587,7 +587,6 @@
     </Routine>
   </Routines>
   <Flow>
-    <Routine name="Connecting"/>
     <Routine name="Setup_Code"/>
     <Routine name="Sync_Beeps"/>
     <Routine name="Sit_Still"/>
