@@ -495,7 +495,7 @@
         <Param val="True" valType="bool" updates="constant" name="forceEndRoutine"/>
         <Param val="1" valType="num" updates="constant" name="granularity"/>
         <Param val="" valType="code" updates="None" name="initVal"/>
-        <Param val="&quot;Not disgusting at all&quot;, &quot;Slightly disgusting&quot;, &quot;Moderately disgusting,\ncauses me to\nscrunch up my nose&quot;, &quot;Very disgusting,\nI want to push\nthe image away&quot;, &quot;Extremely disgusting,\nI feel nauseous&quot;" valType="list" updates="constant" name="labels"/>
+        <Param val="&quot;Not disgusting at all&quot;, &quot;Slightly disgusting&quot;, &quot;Moderately disgusting,\nunpleasant to look at&quot;, &quot;Very disgusting,\nI want to push\nthe image away&quot;, &quot;Extremely disgusting,\nI feel nauseous&quot;" valType="list" updates="constant" name="labels"/>
         <Param val="0.02" valType="num" updates="constant" name="letterHeight"/>
         <Param val="disgust_score" valType="code" updates="None" name="name"/>
         <Param val="" valType="num" updates="constant" name="opacity"/>
