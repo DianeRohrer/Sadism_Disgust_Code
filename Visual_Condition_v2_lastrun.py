@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on February 15, 2024, at 16:25
+    on February 20, 2024, at 12:15
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\simla\\Documents\\GitHub\\Sadism_Disgust_Code\\Visual_Condition_v2_lastrun.py',
+    originPath='C:\\Users\\simla\\OneDrive\\Documents\\GitHub\\Sadism_Disgust_Code\\Visual_Condition_v2_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -163,7 +163,7 @@ p_port_9 = parallel.ParallelPort(address='0x3FF8')
 # --- Initialize components for Routine "Score_Image" ---
 disgust_score = visual.Slider(win=win, name='disgust_score',
     startValue=None, size=(1.0, 0.1), pos=(0, -0.2), units=None,
-    labels=["Not disgusting at all", "Slightly disgusting", "Moderately disgusting,\ncauses me to\nscrunch up my nose", "Very disgusting,\nI want to push\nthe image away", "Extremely disgusting,\nI feel nauseous"], ticks=(0, 1, 2, 3, 4), granularity=1.0,
+    labels=["Not disgusting at all", "Slightly disgusting", "Moderately disgusting,\nunpleasant to look at", "Very disgusting,\nI want to push\nthe image away", "Extremely disgusting,\nI feel nauseous"], ticks=(0, 1, 2, 3, 4), granularity=1.0,
     style='rating', styleTweaks=(), opacity=None,
     labelColor=[0.8, 0.8, 0.8], markerColor=[1.0000, -1.0000, 1.0000], lineColor=[1.0000, 1.0000, 1.0000], colorSpace='rgb',
     font='Open Sans', labelHeight=0.02,
@@ -609,7 +609,7 @@ if p_port_4.status == STARTED:
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-loop = data.TrialHandler(nReps=63.0, method='sequential', 
+loop = data.TrialHandler(nReps=64.0, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='loop')
@@ -964,7 +964,7 @@ for thisLoop in loop:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 63.0 repeats of 'loop'
+# completed 64.0 repeats of 'loop'
 
 
 # --- End experiment ---
