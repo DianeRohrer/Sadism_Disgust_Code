@@ -143,7 +143,9 @@ for i_block in range(N_TASTANT_BLOCKS):
         random.shuffle(block_tastants)
     tastants.append(block_tastants)
     print(f"  For block {i_block + 1}")
-    print(block_tastants)
+    for i, tastant in enumerate(block_tastants):
+        print(f"    {i + 1}. {tastant}")
+    print()
 
 with open(os.path.join("data", f"tastants_{subject_id}.txt"), "wt") as f:
     f.write(json.dumps(tastants))
