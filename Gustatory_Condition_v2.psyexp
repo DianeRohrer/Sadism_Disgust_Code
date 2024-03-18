@@ -1093,6 +1093,7 @@
   <Flow>
     <Routine name="Setup_Code"/>
     <Routine name="Sync_Beeps"/>
+    <Routine name="Sit_Still"/>
     <LoopInitiator loopType="TrialHandler" name="Blocks_of_Tastants">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
@@ -1104,7 +1105,6 @@
       <Param name="name" updates="None" val="Blocks_of_Tastants" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="Sit_Still"/>
     <LoopInitiator loopType="TrialHandler" name="Each_Tastant_Once">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
