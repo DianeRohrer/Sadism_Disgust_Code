@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on March 22, 2024, at 13:26
+    on April 15, 2024, at 15:05
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -111,7 +111,7 @@ p_port = parallel.ParallelPort(address='0x3FF8')
 
 # --- Initialize components for Routine "Sit_Still" ---
 baseline = visual.TextBox2(
-     win, text='Please relax and sit still for the next 20 seconds.', font='Open Sans',
+     win, text='Please relax and sit still for the next 15 seconds.', font='Open Sans',
      pos=(0, 0),     letterHeight=0.05,
      size=(None, None), borderWidth=2.0,
      color='white', colorSpace='rgb',
@@ -493,7 +493,7 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "Sit_Still" ---
-while continueRoutine and routineTimer.getTime() < 20.1:
+while continueRoutine and routineTimer.getTime() < 15.1:
     # get current time
     t = routineTimer.getTime()
     tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -513,7 +513,7 @@ while continueRoutine and routineTimer.getTime() < 20.1:
         baseline.setAutoDraw(True)
     if baseline.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > baseline.tStartRefresh + 20.0-frameTolerance:
+        if tThisFlipGlobal > baseline.tStartRefresh + 15.0-frameTolerance:
             # keep track of stop time/frame for later
             baseline.tStop = t  # not accounting for scr refresh
             baseline.frameNStop = frameN  # exact frame index
@@ -542,7 +542,7 @@ while continueRoutine and routineTimer.getTime() < 20.1:
             p_port_2.status = FINISHED
             win.callOnFlip(p_port_2.setData, int(0))
     # *p_port_3* updates
-    if p_port_3.status == NOT_STARTED and t >= 20.0-frameTolerance:
+    if p_port_3.status == NOT_STARTED and t >= 15.0-frameTolerance:
         # keep track of start time/frame for later
         p_port_3.frameNStart = frameN  # exact frame index
         p_port_3.tStart = t  # local t and not account for scr refresh
@@ -593,7 +593,7 @@ if p_port_3.status == STARTED:
 if routineForceEnded:
     routineTimer.reset()
 else:
-    routineTimer.addTime(-20.100000)
+    routineTimer.addTime(-15.100000)
 
 # set up handler to look after randomisation of conditions etc
 Blocks_of_Tastants = data.TrialHandler(nReps=5.0, method='sequential', 
@@ -1192,7 +1192,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
         frameN = -1
         
         # --- Run Routine "spit_beep" ---
-        while continueRoutine and routineTimer.getTime() < 12.1:
+        while continueRoutine and routineTimer.getTime() < 10.1:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1279,7 +1279,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
                     p_port_9.status = FINISHED
                     win.callOnFlip(p_port_9.setData, int(0))
             # *p_port_18* updates
-            if p_port_18.status == NOT_STARTED and t >= 12.0-frameTolerance:
+            if p_port_18.status == NOT_STARTED and t >= 10.0-frameTolerance:
                 # keep track of start time/frame for later
                 p_port_18.frameNStart = frameN  # exact frame index
                 p_port_18.tStart = t  # local t and not account for scr refresh
@@ -1331,7 +1331,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
         if routineForceEnded:
             routineTimer.reset()
         else:
-            routineTimer.addTime(-12.100000)
+            routineTimer.addTime(-10.100000)
         
         # --- Prepare to start Routine "Palatability" ---
         continueRoutine = True
@@ -1460,7 +1460,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
         frameN = -1
         
         # --- Run Routine "Rinse" ---
-        while continueRoutine and routineTimer.getTime() < 39.2:
+        while continueRoutine and routineTimer.getTime() < 29.2:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1506,7 +1506,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
                     thisExp.timestampOnFlip(win, 'Begin_Rinse.stopped')
                     Begin_Rinse.stop()
             # start/stop Finish_rinse
-            if Finish_rinse.status == NOT_STARTED and tThisFlip >= 36.2-frameTolerance:
+            if Finish_rinse.status == NOT_STARTED and tThisFlip >= 26.2-frameTolerance:
                 # keep track of start time/frame for later
                 Finish_rinse.frameNStart = frameN  # exact frame index
                 Finish_rinse.tStart = t  # local t and not account for scr refresh
@@ -1525,7 +1525,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
                     Finish_rinse.stop()
             
             # *Rinse_Spit* updates
-            if Rinse_Spit.status == NOT_STARTED and tThisFlip >= 36.2-frameTolerance:
+            if Rinse_Spit.status == NOT_STARTED and tThisFlip >= 26.2-frameTolerance:
                 # keep track of start time/frame for later
                 Rinse_Spit.frameNStart = frameN  # exact frame index
                 Rinse_Spit.tStart = t  # local t and not account for scr refresh
@@ -1586,7 +1586,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
                     p_port_11.status = FINISHED
                     win.callOnFlip(p_port_11.setData, int(0))
             # *p_port_12* updates
-            if p_port_12.status == NOT_STARTED and t >= 36.2-frameTolerance:
+            if p_port_12.status == NOT_STARTED and t >= 26.2-frameTolerance:
                 # keep track of start time/frame for later
                 p_port_12.frameNStart = frameN  # exact frame index
                 p_port_12.tStart = t  # local t and not account for scr refresh
@@ -1641,7 +1641,7 @@ for thisBlocks_of_Tastant in Blocks_of_Tastants:
         if routineForceEnded:
             routineTimer.reset()
         else:
-            routineTimer.addTime(-39.200000)
+            routineTimer.addTime(-29.200000)
         
         # --- Prepare to start Routine "Rest" ---
         continueRoutine = True
