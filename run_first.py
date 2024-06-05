@@ -324,7 +324,13 @@ def generate_bets():
     bets = []
     for _ in range(N_GAMES):
         bets = bets + generate_sucrose_water_bets()
-    return bets
+
+    # The above loop generates twice as many bets as we need because
+    # generate_sucrose_water_bets() produces 2 bets each time it is called.
+    # Trim off the excess bets here. Doing this, rather than generating
+    # the correct number of bets to start with, in order to hopefully
+    # preserve the bets created by a given subject_id.
+    return bets[:N_GAMES]
 
 
 # Generate a randomized list offers.
