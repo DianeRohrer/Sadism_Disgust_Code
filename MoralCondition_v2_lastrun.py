@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on June 05, 2024, at 15:18
+    on June 11, 2024, at 18:00
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -256,7 +256,7 @@ Emotion_Image = visual.ImageStim(
     texRes=128.0, interpolate=True, depth=0.0)
 AffinityScore = visual.Slider(win=win, name='AffinityScore',
     startValue=None, size=(1.0, 0.1), pos=(0, -0.2), units=None,
-    labels=("Very untrue of me", "Untrue of me", "Somewhat untrue of me", "Neurtral", "Somewhat true of me", "True of me", "Very true of me"), ticks=(1, 2, 3, 4, 5, 6, 7), granularity=1.0,
+    labels=("Very untrue of me", "Untrue of me", "Somewhat untrue of me", "Neutral", "Somewhat true of me", "True of me", "Very true of me"), ticks=(1, 2, 3, 4, 5, 6, 7), granularity=1.0,
     style='rating', styleTweaks=(), opacity=None,
     labelColor=[0.8, 0.8, 0.8], markerColor=[1.0000, -1.0000, 1.0000], lineColor=[1.0000, 1.0000, 1.0000], colorSpace='rgb',
     font='Open Sans', labelHeight=0.02,
