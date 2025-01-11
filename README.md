@@ -41,7 +41,6 @@ each condition and trial, with the artifact sections shaded.
 The resulting EMG averages are stored back in the Box directory
 in the format `999_emg_averages.csv`.
 
-TODO: update this
 * `gather_data.py` Collect the extracted and processed EMG data
 for all subjects and compile it into a single file called `all_emg_data.csv`.
 
@@ -88,16 +87,19 @@ For example on The Morrigan this would have been
 The log files contain the results of the PsychoPy experiment, including
 moral disgust ratings and affinity scores for the emotion faces.
 
-1. On Thanos, in the GitHub app commit all the newly created data
+1. On the participant computer, in the GitHub app
+commit all the newly created data
 files by adding a short summary message and clicking the
 "Commit to main" button.
 
-2. On Thanos in the GitHub app "Fetch origin" and "Pull origin"
-to bring all Thanos' files up to date.
+2. On the participant computer in the GitHub app
+"Fetch origin" and "Pull origin"
+to bring all the participant computer's files up to date.
 
-3. On Thanos in the Github app "Push to origin" to upload new data files.
+3. On the participant computer in the Github app "Push to origin"
+to upload new data files.
 
-4. On The Morrigan in the GutHub app "Fetch origin" and "Pull origin"
+4. On Aidas or Asher in the GitHub app "Fetch origin" and "Pull origin"
 to download the new data files.
 
 
@@ -108,7 +110,7 @@ to download the new data files.
 2. Add and remove IDs to until it is only the list of subjects you want to 
 include in this analysis
 
-
+TODO walk through `gather_data.py`
 ## Gathering annotated data
 
 To collect all of the `artifacts_####.csv` files from all the subjects,

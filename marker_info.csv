@@ -1,0 +1,42 @@
+Visual Disgust Sync Beeps,1,yes,,Good
+Baseline Start,2,yes,,Good
+Baseline Stop,3,yes,,Good
+Instructions Start,4,yes,,Good
+Cross Start,6,yes,,Good
+Cross Stop,7,yes,,Good
+Image Start,8,yes,,Good
+Image Stop,9,yes,,Good
+Rating Start,10,yes,,Good
+Moral Disgust Sync Beeps,11,yes,,Good
+Baseline Start,2,yes,,Good
+Baseline Stop,3,yes,,Good
+Instructions Start,4,yes,,Good
+Cross Start,6,yes,,Good
+Cross Stop,7,yes,,Good
+Opponent Start,12,yes,,Good
+Opponent Stop,13,yes,,Good
+Offer Start,14,yes,,Good
+Decide Accept/Reject,31,yes,,
+Offer Stop,15,yes,,Good
+Arrows Start,16,yes,,Good
+Non Verbal Instructions,17,yes,,Good
+Non Verbal Start,18,yes,,Good
+Verbal Start ,19,yes,,Good
+Gustatory Disgust Sync Beeps,5,yes,,Good
+Baseline Start,2,yes,,Good
+Baseline Stop,3,yes,,Good
+Instructions Start,4,yes,,Good
+Cross Start,6,yes,,Good
+Cross Stop,7,yes,,Good
+Grab cup start,20,yes,,Good
+Tastant Administration ,21,yes,,Good
+Spit Start,22,yes,,Good
+Spit Stop,32,yes,,
+Rinse Start Instructions,23,yes,,Good
+Rinse Spit  Start,24,yes,,Good
+Rinse Spit Stop,25,yes,,Good
+Rating Start,26,yes,,Good
+Rest Start ,27,yes,,Good
+Rest Stop,28,yes,,Good
+Break Start,29,yes,,Good
+Break Stop,30,yes,,Good

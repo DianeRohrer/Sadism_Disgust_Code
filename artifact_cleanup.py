@@ -25,21 +25,23 @@ import numpy as np
 import pandas as pd
 
 from file_tools import get_directories
-from plot_emg import plot_experiment
-from plot_emg_gustatory import plot_gustatory_condition
-from plot_emg_moral import plot_moral_condition
-from plot_emg_visual import plot_visual_condition
-from processing_steps import get_vhdr_filenames, get_condition_order
-from processing_steps import get_details, read_emg_data, read_snippet_info
+from img_label_data import img_labels
+# from plot_emg import plot_experiment
+# from plot_emg_gustatory import plot_gustatory_condition
+# from plot_emg_moral import plot_moral_condition
+# from plot_emg_visual import plot_visual_condition
+from processing_steps import get_vhdr_filenames
+from processing_steps import get_details, read_emg_data, read_marker_info
 
-SAMPLING_FREQUENCY = 5000.0  # Sampling frequency in Hz
+SAMPLING_FREQUENCY = 5000.0 * 30.0 / 29.97  # Sampling frequency in Hz
+# SAMPLING_FREQUENCY = 5000.0  # Sampling frequency in Hz
 
 PLOT_ALL = False
 PLOT_GUSTATORY = False
 PLOT_MORAL = True
 PLOT_VISUAL = False
 
-def process_subject(subject_id=None):
+def process_subject(subject_id=None, turn_off_plots=False):
     """
     This is the top level function that does the work of this script.
     It calls a sequence of other functions to do the hard work.
@@ -60,50 +62,40 @@ def process_subject(subject_id=None):
     assert len(vhdr_filenames) == 1, msg
     vhdr_filename = vhdr_filenames[0]
 
-    condition_order = get_condition_order(subject_id)
-
-    # Create some dictionaries. These will be used to gather up the
-    # results into one place.
-    # all_spit_beep_times = {"A": None, "B": None, "C": None}
-    # all_emg_data = {}
-    # all_tastants = {}
-    # all_bets = {}
-    # all_plot_names = {}
-
-    # Split out just the portion of the filename
-    vhdr_name = vhdr_filename.split(os.path.sep)[-1].split(".")[0]
-    plot_name = vhdr_filename.split(os.path.sep)[-1][:-5]
-    bets, conditions, disgust_images, emotions, opponents, tastants = get_details(vhdr_name)
-
     # Extract the start times labels of all snippets.
-    # timestamps, starts, labels = read_snippet_info(vhdr_filename)
-    samples, labels = read_snippet_info(vhdr_filename)
+    # timestamps, starts, labels = read_marker_info(vhdr_filename)
+    timestamps, samples, labels = read_marker_info(vhdr_filename)
 
     # Load in the EMG for each muscle.
     # Pre-extract the baseline, spitting, and acceptance snippets.
     # Put them all in a dictionary.
-    # emg_data, spit_beep_times = read_emg_data(
-    #     vhdr_filename, timestamps, starts, labels
-    # )
-    # emg_data, spit_beep_times = read_emg_data(vhdr_filename, samples, labels)
-    cor, ll, zyg, mas = read_emg_data(vhdr_filename, samples, labels)
-    # all_emg_data[condition] = emg_data
-    # all_spit_beep_times[condition] = spit_beep_times
-    # all_tastants[condition] = tastants
-    # all_bets[condition] = bets
-    # all_plot_names[condition] = plot_name
+    (
+        emg_data,
+        condition_start_times,
+        spit_beep_times,
+    ) = read_emg_data(vhdr_filename, samples, labels)
 
     # Remove artifacts.
     # Find the offset between the camera clock and EMG clock.
-    # video_offsets, artifacts = find_offsets(
-    #     subject_id, condition_order, all_spit_beep_times, data_directory
-    # )
+    condition_order, condition_offsets, artifacts = find_offsets(
+        subject_id,
+        condition_start_times,
+        spit_beep_times,
+        data_directory
+    )
 
-    # find_all_emg_averages(all_emg_data, artifacts, video_offsets)
+    find_emg_averages(
+        subject_id,
+        data_directory,
+        emg_data,
+        artifacts,
+        condition_order,
+        condition_start_times,
+        condition_offsets,
+    )
 
-    # write_emg_averages(all_emg_data, data_directory, subject_id)
-
-    if PLOT_VISUAL:
+    '''
+    if PLOT_VISUAL and not turn_off_plots:
         plot_visual_condition(
             cor, ll, mas, zyg,
             disgust_images,
@@ -111,7 +103,7 @@ def process_subject(subject_id=None):
             labels,
             subject_id,
         )
-    if PLOT_GUSTATORY:
+    if PLOT_GUSTATORY and not turn_off_plots:
         plot_gustatory_condition(
             cor, ll, mas, zyg,
             tastants,
@@ -119,7 +111,7 @@ def process_subject(subject_id=None):
             labels,
             subject_id,
         )
-    if PLOT_MORAL:
+    if PLOT_MORAL and not turn_off_plots:
         plot_moral_condition(
             cor, ll, mas, zyg,
             bets,
@@ -129,7 +121,7 @@ def process_subject(subject_id=None):
             labels,
             subject_id,
         )
-    if PLOT_ALL:
+    if PLOT_ALL and not turn_off_plots:
         plot_experiment(
             cor, ll, mas, zyg,
             bets,
@@ -142,29 +134,15 @@ def process_subject(subject_id=None):
             labels,
             plot_name,
         )
-
-
 '''
-def generate_plots(
-    all_emg_data,
-    all_plot_names,
-    all_tastants,
-    all_bets,
-    artifacts,
-    video_offsets,
+
+
+def find_offsets(
+    subject_id,
+    condition_start_times,
+    spit_beep_times,
+    data_directory,
 ):
-    for condition in ["A", "B", "C"]:
-        emg_data = all_emg_data[condition]
-        plot_name = all_plot_names[condition]
-        tastants = all_tastants[condition]
-        bets = all_bets[condition]
-        offset = video_offsets[condition]
-
-        generate_plot(emg_data, plot_name, tastants, bets, artifacts, offset)
-'''
-
-
-def find_offsets(subject_id, condition_order, spit_beep_times, data_directory):
     """
     This function calculates the difference between video time and
     EMG time. Knowing this difference lets us use the behaviors we find
@@ -193,132 +171,301 @@ def find_offsets(subject_id, condition_order, spit_beep_times, data_directory):
     )
     artifacts["duration"] = artifacts["end_time"] - artifacts["start_time"]
 
-    # Pull out the artifacts that are specifically tied to spitting
-    # out the tastants. Because spitting is prompted by PsychoPy beeps,
-    # this particular artifact lets us synchronize PsychoPy's representation
-    # of time with the camera's.
-    spit_artifact_starts = np.array(
-        artifacts.loc[artifacts.loc[:, "spitting"] == 1, "start_time"]
-    )
-    spit_artifact_starts.sort()
+    # For manually scanning artifact durations
+    # for duration in artifacts["duration"]:
+    #     print(duration)
+    # bins = [-1e100, 0, 1, 2, 4, 8, 15, 30, 60, 1e100]
+    # durations = artifacts["duration"].array
+    # print(np.histogram(durations, bins))
 
-    # There should be exactly 18 tastant spits. If there aren't,
+    # Pull out the artifacts that are specifically tied to the start of
+    # a condition. These moments are marked by syncrhronous PsychoPy beeps
+    # and Markers sent to the EMG recording computer.
+    # This lets us synchronize PsychoPy's representation
+    # of time with the camera's.
+    condition_start_times_camera = np.array(
+        artifacts.loc[artifacts.loc[:, "start_condition"] == 1, "start_time"]
+    )
+    spit_beep_times_camera = np.array(
+        artifacts.loc[artifacts.loc[:, "spitting (from beep)"] == 1, "start_time"]
+    )
+    # rinse_beep_times_camera = np.array(
+    #     artifacts.loc[artifacts.loc[:, "rinsing (from beep)"] == 1, "start_time"]
+    # )
+
+    spit_beep_times_markers = np.array(spit_beep_times)
+
+    # There should be exactly 25 spit beeps annotated on the video.
+    # If there aren't,
     # then something isn't right with the data and the script
     # will exit so that we can figure out what went wrong.
     msg = (
-        f"There are {spit_artifact_starts.size} spitting artifacts. "
-        + "There should be 18 (6 per condition)."
+        f"There are {spit_beep_times_camera.size}"
+        + " spit beeps annotated."
+        + "There should be 25."
     )
-    assert spit_artifact_starts.size == 18, msg
+    assert spit_beep_times_camera.size == 25, msg
 
-    offsets = {}
-    for i, condition in enumerate(condition_order):
-        spit_times = np.array(spit_beep_times[condition])
-        spit_times.sort()
+    # There should be exactly three `start_condition` beeps annotated
+    # on the video.
+    # If there aren't,
+    # then something isn't right with the data and the script
+    # will exit so that we can figure out what went wrong.
+    msg = (
+        f"There are {condition_start_times_camera.size} condition"
+        + " start beeps annotated."
+        + "There should be 3 (1 per condition)."
+    )
+    assert condition_start_times_camera.size == 3, msg
 
-        # Just double check that there are exactly 6 tastant spits
-        # for each condition. If there aren't, that's a real problem.
-        msg = (
-            f"There are {spit_times.size} spitting events "
-            + f"for condition {condition}. "
-            + "There should be 6."
-        )
-        assert spit_times.size == 6, msg
+    # There should be exactly 25 spit beep markers.
+    # If there aren't,
+    # then something isn't right with the data and the script
+    # will exit so that we can figure out what went wrong.
+    msg = (
+        f"There are {spit_beep_times_markers.size}"
+        + " spit beep markers."
+        + "There should be 25."
+    )
+    assert spit_beep_times_markers.size == 25, msg
 
-        condition_spit_artifact_starts = spit_artifact_starts[
-            i * 6 : (i + 1) * 6
-        ]
+    condition_start_times_markers = np.fromiter(
+        condition_start_times.values(), dtype=float)
 
-        # This is the heart: Find the difference between the PsychoPy time
-        # and the video time at each spit. They should all be approximately
-        # the same. Average them together to get an even more accurate
-        # estimate.
-        offsets[condition] = np.mean(
-            spit_times - condition_spit_artifact_starts
-        )
+    # Just double check that there are exactly 3 condition start
+    # markers. If there aren't, that's a real problem.
+    msg = (
+        f"There are {condition_start_times_markers.size} condition start markers."
+        + "There should be 3."
+    )
+    assert condition_start_times_markers.size == 3, msg
 
-    # Pad spitting start times backward in time by 1 second
-    # to make sure they cover the start of the spit EMG window.
-    # This eliminates the big spike at the beginning of most
-    # spit windows.
-    artifacts.loc[artifacts.loc[:, 'spitting'] == 1, 'start_time'] -= 1
+    # camera_syncs = np.concatenate((
+    #     spit_beep_times_camera,
+    #     condition_start_times_camera
+    # ))
+    camera_syncs = condition_start_times_camera
+    camera_syncs.sort()
 
-    return offsets, artifacts
+    # marker_syncs = np.concatenate((
+    #     spit_beep_times_markers,
+    #     condition_start_times_markers
+    # ))
+    marker_syncs = condition_start_times_markers
+    marker_syncs.sort()
+
+    # This is the heart: Find the difference between the PsychoPy time
+    # and the video time at each condition start.
+    # They should all be approximately
+    # the same. Average them together to get an even more accurate
+    # estimate.
+    # offset = np.median(marker_syncs - camera_syncs)
+    # offsets = marker_syncs - camera_syncs
+
+    # print("offsets")
+    # for off in offsets:
+    #     print(f"    {off}")
+    # print("offset", offset)
+
+    # Create offsets for each condition.
+    # Add offsets to artifact times to make them line up with emg times.
+    offsets = marker_syncs - camera_syncs
+
+    # Pull the conditions in the order in which they occurred
+    condition_order = sorted(
+        condition_start_times,
+        key=lambda k: condition_start_times[k]
+    )
+
+    offset = dict(zip(condition_order, offsets))
+
+    return condition_order, offset, artifacts
 
 
-def find_all_emg_averages(all_emg_data, artifacts, video_offsets):
-    for condition in ["A", "B", "C"]:
-        emg_data = all_emg_data[condition]
-        offset = video_offsets[condition]
-        find_emg_averages(emg_data, artifacts, offset)
+def find_emg_averages(
+    subject_id,
+    data_directory,
+    emg_data,
+    artifacts,
+    condition_order,
+    condition_start_times,
+    offsets,
+):
+    # muscles = ["cor", "mas", "ll", "zyg"]
 
+    for i_condition, condition in enumerate(condition_order):
+        # Initialize this so that the last condition ends up with an
+        # end time that is far in the future.
+        end_time = 1e10
+        # For the first two conditions, the start of the next condition
+        # is their end time.
+        if i_condition < 2:
+            next_condition = condition_order[i_condition + 1]
+            end_time = condition_start_times[next_condition]
+        start_time = condition_start_times[condition]
+        offset = offsets[condition]
 
-def find_emg_averages(emg_data, artifacts, offset):
-    artifact_start_times = artifacts["start_time"].values + offset
-    artifact_end_times = artifacts["end_time"].values + offset
-    muscles = ["cor", "mas", "ll", "zyg"]
+        # Collect just the emg snippets that belong to this condition.
+        emg_cond = {}
+        for emg_key in emg_data.keys():
+            if (
+                (emg_data[emg_key]["start_time"] >= start_time) and
+                (emg_data[emg_key]["start_time"] < end_time)
+            ):
+                emg_cond[emg_key] = emg_data[emg_key]
 
-    for snippet_name, data in emg_data.items():
-        tmp_data = copy.deepcopy(data)
-        n_points = data["cor"].size
-        time = (np.arange(n_points) / SAMPLING_FREQUENCY) + data["start_time"]
-        snippet_start_time = time[0]
-        snippet_end_time = time[-1]
+        # Collect just the artifacts that belong to this condition.
+        artifacts_cond = artifacts.loc[np.logical_and(
+            artifacts.loc[:, "end_time"] + offset >= start_time,
+            artifacts.loc[:, "start_time"] + offset < end_time
+        ), :]
+        artifact_start_times = artifacts_cond.loc[:, "start_time"].values + offset
+        artifact_end_times = artifacts_cond.loc[:, "end_time"].values + offset
 
-        i_snippet_artifacts = np.where(
-            np.logical_and(
-                artifact_start_times <= snippet_end_time,
-                snippet_start_time <= artifact_end_times,
-            )
-        )[0]
-        remove_starts = None
-        remove_ends = None
-        if i_snippet_artifacts.size > 0:
-            remove_starts = np.maximum(
-                snippet_start_time, artifact_start_times[i_snippet_artifacts]
-            )
-            remove_ends = np.minimum(
-                snippet_end_time, artifact_end_times[i_snippet_artifacts]
-            )
-            for i_snip in range(remove_starts.size):
-                start_index = int(
-                    (remove_starts[i_snip] - snippet_start_time)
-                    * SAMPLING_FREQUENCY
+        # print("emg keys")
+        # print(emg_data.keys())
+        # print("condition keys")
+        # print(emg_cond.keys())
+
+        # print("artifact start range",
+        #     np.min(artifact_start_times), np.max(artifact_start_times))
+        # print("artifact end range",
+        #     np.min(artifact_end_times), np.max(artifact_end_times))
+        # print("condition range", start_time, end_time)
+
+        for snippet_name, data in emg_cond.items():
+            # We're only focused on "ll" for now.
+            emg_snippet = copy.deepcopy(data["ll"])
+            n_points = emg_snippet.size
+            snippet_start_time = data["start_time"]
+            snippet_end_time = data["end_time"]
+
+            i_snippet_artifacts = np.where(
+                np.logical_and(
+                    artifact_start_times <= snippet_end_time,
+                    snippet_start_time <= artifact_end_times,
                 )
-                last_index = int(
-                    (remove_ends[i_snip] - snippet_start_time)
-                    * SAMPLING_FREQUENCY
+            )[0]
+            remove_starts = None
+            remove_ends = None
+            if i_snippet_artifacts.size > 0:
+                remove_starts = np.maximum(
+                    snippet_start_time, artifact_start_times[i_snippet_artifacts]
                 )
+                remove_ends = np.minimum(
+                    snippet_end_time, artifact_end_times[i_snippet_artifacts]
+                )
+                for i_snip in range(remove_starts.size):
+                    # print("remove_starts", type(remove_starts), remove_starts)
+                    start_index = int(
+                        (remove_starts[i_snip] - snippet_start_time)
+                        * SAMPLING_FREQUENCY
+                    )
+                    last_index = int(
+                        (remove_ends[i_snip] - snippet_start_time)
+                        * SAMPLING_FREQUENCY
+                    )
 
-                index_err_msg = "Index error in removing artifacts"
-                assert start_index >= 0, index_err_msg
-                assert last_index < n_points, index_err_msg
+                    index_err_msg = "Index error in removing artifacts"
+                    # print("start index", start_index, "last index", last_index, "n points", n_points)
+                    assert start_index >= 0, index_err_msg
+                    assert last_index <= n_points, index_err_msg
 
-                for muscle in muscles:
-                    tmp_data[muscle][start_index : last_index + 1] = np.NaN
+                    # Handle what appears to be an unfortunate rounding error
+                    # to keep all indices within bounds.
+                    if last_index == n_points:
+                        last_index = n_points - 1
 
-        for muscle in muscles:
-            avg_name = f"emg_avg_{muscle}"
-            data[avg_name] = np.nanmean(tmp_data[muscle]) * 1e6
+                    emg_snippet[start_index : last_index + 1] = np.nan
+                    # print(start_index, last_index)
+
+            data["emg_avg"] = np.nanmean(emg_snippet) * 1e6
+            # emg_cond[snippet_name]["emg_avg"] = np.nanmean(emg_snippet) * 1e6
+            # print("data", data)
+
+        write_emg_averages(emg_cond, condition, data_directory, subject_id)
 
 
-def write_emg_averages(all_emg_data, data_directory, subject_id):
-    emg_averages_filename = f'{subject_id}_emg_averages.csv'
+def write_emg_averages(emg_data, condition, data_directory, subject_id):
+    emg_averages_filename = f'{subject_id}_{condition}_emg_averages.csv'
     emg_averages_pathname = os.path.join(data_directory, emg_averages_filename)
 
+    (
+        bets,
+        conditions,
+        disgust_images,
+        emotions,
+        opponents,
+        tastants_nested,
+    )= get_details(subject_id)
+
+    # Flatten the tastants list of lists into a single list
+    tastants = []
+    for top_level_list in tastants_nested:
+        for t in top_level_list:
+            tastants.append(t)
+
+    tastant_abbreviations = {
+        "high_quinine": "hq",
+        "low_quinine": "lq",
+        "high_sucrose": "hs",
+        "low_sucrose": "ls",
+        "water": "w",
+    }
+
+    # print(emg_averages_pathname)
     emg_dict_list = []
-    for condition in ["A", "B", "C"]:
-        emg_data = all_emg_data[condition]
-        muscles = ["cor", "mas", "ll", "zyg"]
-        for muscle in muscles:
-            emg_dict = {'condition' : condition, 'muscle' : muscle}
-            for snippet_name, data in emg_data.items():
-                avg_name = f'emg_avg_{muscle}'
-                emg_dict[snippet_name] = data[avg_name]
-            emg_dict_list.append(emg_dict)
+    for snippet_name, data in emg_data.items():
+        emg_dict = {}
+        emg_dict["snippet_name"] = snippet_name
+        emg_dict["emg_avg"] = data["emg_avg"]
+        snippet_type = snippet_name.split('_')[0]
+        snippet_num = int(snippet_name.split('_')[1])
+        emg_dict["snippet_type"] = snippet_type
+        emg_dict_list.append(emg_dict)
+        # print(emg_dict)
+
+        if snippet_type == "baseline":
+            baseline_emg_avg = data["emg_avg"]
+
+        if condition == "moral" and snippet_type == "offer":
+            emg_dict["label"] = bets[snippet_num]
+
+        if condition == "gustatory" and snippet_type == "spit":
+            emg_dict["label"] = tastant_abbreviations[tastants[snippet_num]]
+
+        if condition == "visual" and snippet_type == "view":
+            img_id = disgust_images[snippet_num][22: 26]
+            # print("img id", img_id, "img label", img_labels[img_id])
+            emg_dict["label"] = img_labels[img_id]
+
+    # Find the baseline-adjusted emg averages for every snippet in
+    # this condition.
+    for emg_dict in emg_dict_list:
+        emg_dict["emg_avg_norm"] = emg_dict["emg_avg"] - baseline_emg_avg
 
     df = pd.DataFrame(emg_dict_list)
     df.to_csv(emg_averages_pathname)
+
+
+'''
+def generate_plots(
+    all_emg_data,
+    all_plot_names,
+    all_tastants,
+    all_bets,
+    artifacts,
+    video_offsets,
+):
+    for condition in ["A", "B", "C"]:
+        emg_data = all_emg_data[condition]
+        plot_name = all_plot_names[condition]
+        tastants = all_tastants[condition]
+        bets = all_bets[condition]
+        offset = video_offsets[condition]
+
+        generate_plot(emg_data, plot_name, tastants, bets, artifacts, offset)
+'''
 
 
 if __name__ == '__main__':
