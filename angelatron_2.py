@@ -13,13 +13,10 @@ import mne
 # They're all defined right here so they're easy to find.
 
 # Be specific about where to find data and where to plot copies of plots.
-# LOKI_DATA_DIRECTORY = "/home/brohrer/projects/Moral_Disgust_Analysis/data"
-# LOKI_PLOT_DIRECTORY = "/home/brohrer/projects/Moral_Disgust_Analysis/plots"
-# THE_MORRIGAN_DATA_DIRECTORY = "/Users/themorrigan/Library/CloudStorage/Box-Box/EMG_Moral_Disgust_Data"  # noqa: E501
-# THE_MORRIGAN_PLOT_DIRECTORY = "/Users/themorrigan/Desktop/Moral_Disgust_Code/plots"  # noqa: E501
-# AIDAS_DATA_DIRECTORY = "/Users/hopswork/projects/Moral_Disgust_Code/data"
-AIDAS_DATA_DIRECTORY = "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study"  # noqa: E501
-AIDAS_PLOT_DIRECTORY = "/Users/hopswork/projects/Sadism_Disgust_Code/plots"
+ASHER_DATA_DIRECTORY = "/Users/asher/Library/CloudStorage/Box-Box/Sadism Disgust Study"  # noqa: E501
+ASHER_PLOT_DIRECTORY = "/Users/asher/Desktop/Sadism_Disgust_Code/plots"  # noqa: E501
+# AIDAS_DATA_DIRECTORY = "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study"  # noqa: E501
+# AIDAS_PLOT_DIRECTORY = "/Users/hopswork/projects/Sadism_Disgust_Code/plots"
 
 # Filtering settings.
 HIGH_CUTOFF = 500.0  # Cutoff frequency in Hz
@@ -46,27 +43,21 @@ PLOT_FREQUENCIES = True
 PLOT_EMG = True
 NOTCH_FILTER = True
 
-# Check this is running on Loki or The Morrigan and
+# Check this is running on Asher or Aidas and
 # set the directories accordingly.
-try:
-    # This will be true for Loki.
-    if os.environ["DESKTOP_SESSION"] == "ubuntu":
-        data_directory = LOKI_DATA_DIRECTORY
-        plot_directory = LOKI_PLOT_DIRECTORY
-except KeyError:
-    # This will be true for The Morrigan.
-    if os.environ["LOGNAME"] == "themorrigan":
-        data_directory = THE_MORRIGAN_DATA_DIRECTORY
-        plot_directory = THE_MORRIGAN_PLOT_DIRECTORY
-    elif os.environ["LOGNAME"] == "hopswork":
-        # This will be true for The Aidas under the Hopswork login.
-        data_directory = AIDAS_DATA_DIRECTORY
-        plot_directory = AIDAS_PLOT_DIRECTORY
-    else:
-        # If it can't figure it out, default to the directory from which
-        # the script was run.
-        data_directory = "."
-        plot_directory = "."
+# This will be true for Asher.
+if os.environ["LOGNAME"] == "asher":
+    data_directory = ASHER_DATA_DIRECTORY
+    plot_directory = ASHER_PLOT_DIRECTORY
+elif os.environ["LOGNAME"] == "hopswork":
+    # This will be true for The Aidas under the Hopswork login.
+    data_directory = AIDAS_DATA_DIRECTORY
+    plot_directory = AIDAS_PLOT_DIRECTORY
+else:
+    # If it can't figure it out, default to the directory from which
+    # the script was run.
+    data_directory = "."
+    plot_directory = "."
 
 print(data_directory)
 
