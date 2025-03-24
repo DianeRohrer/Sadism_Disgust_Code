@@ -1,0 +1,1 @@
+[["low_quinine", "high_sucrose", "high_quinine", "water", "low_sucrose"], ["high_quinine", "high_sucrose", "low_sucrose", "water", "low_quinine"], ["low_sucrose", "low_quinine", "high_sucrose", "high_quinine", "water"], ["water", "low_quinine", "high_sucrose", "low_sucrose", "high_quinine"], ["high_sucrose", "high_quinine", "low_sucrose", "low_quinine", "water"]]
