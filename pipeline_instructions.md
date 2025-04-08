@@ -21,7 +21,8 @@
 ## Run the subjects through the pipeline
 
 - Open a Terminal window
-- Type and run `cd ~/Desktop/Sadism_Disgust_Study/gather_data.py`
+- Type and run `cd ~/Desktop/Sadism_Disgust_Study`
+- Type and run `python3 gather_data.py`
 
 This will loop through all the subjects for which EMG data and artifacts
 files exist and
