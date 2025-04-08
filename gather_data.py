@@ -12,13 +12,13 @@ def main():
     data_directory, _ = get_directories()
     local_data_directory = "data"
 
-    print(data_directory)
     # Generate list of all subject IDs
     filenames = os.listdir(data_directory)
     subject_ids = []
     valid_subject_ids_path = os.path.join("data", "valid_subject_ids.txt")
     with open(valid_subject_ids_path, "rt") as f:
         valid_ids = list(json.loads(f.read()))
+        print("valid ids", valid_ids)
         for filename in filenames:
             if filename[-4:] == ".eeg":
                 filename_parts = filename.split("_")
@@ -27,7 +27,6 @@ def main():
                 if subject_id in valid_ids:
                     subject_ids.append(subject_id)
 
-    '''
     for subject_id in subject_ids:
         print(f"Extracting EMG signals from subject {subject_id}")
         try:
@@ -42,7 +41,7 @@ def main():
         except AssertionError as e:
             print(e)
             continue
-    '''
+
     # Iterate through subject IDs and compile them into a single csv.
     filenames = os.listdir(data_directory)
     summary_filename = "all_emg_data.csv"
