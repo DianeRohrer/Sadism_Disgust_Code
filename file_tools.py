@@ -6,9 +6,9 @@ def get_directories():
     # LOKI_DATA_DIRECTORY = "/home/brohrer/projects/Moral_Disgust_Analysis/data"
     # LOKI_PLOT_DIRECTORY = "/home/brohrer/projects/Moral_Disgust_Analysis/plots"
     THE_MORRIGAN_DATA_DIRECTORY = "/Users/themorrigan/Library/CloudStorage/Box-Box/Sadism Disgust Code"  # noqa: E501
-    THE_MORRIGAN_PLOT_DIRECTORY = (
-        "/Users/themorrigan/Desktop/Sadism_Disgust_Code/plots"
-    )
+    THE_MORRIGAN_PLOT_DIRECTORY = "/Users/themorrigan/Desktop/Sadism_Disgust_Code/plots"
+    ASHER_DATA_DIRECTORY = "/Users/asher/Library/CloudStorage/Box-Box/Sadism Disgust Study"  # noqa: E501
+    ASHER_PLOT_DIRECTORY = "/Users/asher/Desktop/Sadism_Disgust_Code/plots"
     AIDAS_DATA_DIRECTORY = "/Users/hopswork/Library/CloudStorage/Box-Box/Sadism Disgust Study"  # noqa: E501
     AIDAS_PLOT_DIRECTORY = "/Users/hopswork/Desktop/Sadism_Disgust_Code/plots"
 
@@ -29,6 +29,13 @@ def get_directories():
             elif os.environ["LOGNAME"] == "hopswork":
                 data_directory = AIDAS_DATA_DIRECTORY
                 plot_directory = AIDAS_PLOT_DIRECTORY
+            elif os.environ["LOGNAME"] == "asher":
+                data_directory = ASHER_DATA_DIRECTORY
+                plot_directory = ASHER_PLOT_DIRECTORY
+            else:
+                data_directory = "."
+                plot_directory = "."
+
         except KeyError:
             # If it can't figure it out, default to the directory from which
             # the script was run.
