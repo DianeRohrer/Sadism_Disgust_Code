@@ -1,4 +1,4 @@
-# Sadism Disgust Code - trying a thing
+# Sadism Disgust Code
 ====================
 
 Pyschopy files, Python scripts, and data for the Moral Disgust study.

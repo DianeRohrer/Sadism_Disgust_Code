@@ -46,7 +46,12 @@ def main():
     # Iterate through subject IDs and compile them into a single csv.
     filenames = os.listdir(data_directory)
     summary_filename = "all_emg_data.csv"
-    all_subjects_averages = {"moral": {}, "gustatory": {}, "visual": {}}
+    all_subjects_averages = {
+        "moral": {},
+        "gustatory": {},
+        "visual": {},
+        "dsr": {},
+    }
     for filename in filenames:
         if "emg_averages" in filename:
             print(f"Merging {filename}")
@@ -92,10 +97,23 @@ def main():
                 ].mean()
                 all_subjects_averages["moral"][subject_id] = emg_avg
 
+    # Add in DSR scores
+    filename = "dsr_items.csv"
+    pathname = os.path.join("data", filename)
+    dsr_df = pd.read_csv(pathname)
+    for i, row in dsr_df.iterrows():
+        # print(row)
+        # print(row.values)
+        # print("subject id", row.values[-1])
+        # print("dsr", np.sum(row.values[:-1]))
+        subject_id = str(row.values[-1])
+        dsr = np.sum(row.values[:-1])
+        all_subjects_averages["dsr"][subject_id] = dsr
+
     df_all = pd.DataFrame(all_subjects_averages)
     df_all.to_csv(
         os.path.join(data_directory, summary_filename),
-        columns = ["gustatory", "visual", "moral"],
+        columns = ["gustatory", "visual", "moral", "dsr"],
     )
 
     """
