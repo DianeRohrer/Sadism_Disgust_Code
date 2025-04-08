@@ -26,18 +26,17 @@
 
 This will loop through all the subjects for which EMG data and artifacts
 files exist and
-
 1. read in their experiment logs,
-
 2. isolate the EMG segments from each muscle for each condition and portion
 of the experiment,
-
 3. filter the EMG signal, remove any artifacts, and calculate its average,
-
 4. record the average EMG together with information about the type
 of offer made, the emotion affinity scores, and the participant's moral
 judgment score,
-
 5. save the result as `all_emg_data.csv` in the Box directory.
 
+## Use the results
 
+- On Asher Box directory `Sadism Disgust Study`, download `all_emg_data.csv`
+- Move `all_emg_data.csv` to `Desktop/Diss_Data`.
+- In RStudio pull up `MoralDisgust.R` and run it.

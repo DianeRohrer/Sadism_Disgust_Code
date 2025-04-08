@@ -1,4 +1,4 @@
-# Sadism Disgust Code - trying a thing
+# Sadism Disgust Code
 ====================
 
 Pyschopy files, Python scripts, and data for the Moral Disgust study.
@@ -139,7 +139,7 @@ judgment score,
 
 ## Analyzing the collected data
 
-1. On The Morrigan copy `all_emg_data.csv` from the Box directory
+1. On Asher copy `all_emg_data.csv` from the Box directory
 to `Desktop/Moral_Disgust_data`.
 
 2. In RStudio pull up `MoralDisgust.R` and run it.
