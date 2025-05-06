@@ -13,8 +13,8 @@ Save under different filenames.
 
 ## Steps
 
-- naming convention for columns and variables
-- structure for dataframe. List of columns.
+- :done: naming convention for columns and variables
+- :done: structure for dataframe. List of columns.
 - construct dataframe with pre-trial baseline
 - export and test
 - pull out fixation cross baseline

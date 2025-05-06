@@ -15,7 +15,11 @@ def main():
     # Generate list of all subject IDs
     filenames = os.listdir(data_directory)
     subject_ids = []
-    valid_subject_ids_path = os.path.join("data", "valid_subject_ids.txt")
+
+    # TODO: revert this after testing
+    # valid_subject_ids_path = os.path.join("data", "valid_subject_ids.txt")
+    print("only using a single test subjectid")
+    valid_subject_ids_path = os.path.join("data", "valid_subject_ids_test.txt")
     with open(valid_subject_ids_path, "rt") as f:
         valid_ids = list(json.loads(f.read()))
         print("valid ids", valid_ids)
@@ -42,78 +46,91 @@ def main():
             print(e)
             continue
 
-    # Iterate through subject IDs and compile them into a single csv.
-    filenames = os.listdir(data_directory)
-    summary_filename = "all_emg_data.csv"
-    all_subjects_averages = {
-        "moral": {},
-        "gustatory": {},
-        "visual": {},
-        "dsr": {},
-    }
-    for filename in filenames:
-        if "emg_averages" in filename:
-            print(f"Merging {filename}")
-            pathname = os.path.join(data_directory, filename)
-            df = pd.read_csv(pathname)
-            subject_id = filename.split("_")[0]
+    # Iterate through all muscles, and create a separate csv for each.
+    for muscle in ["cor", "mas", "ll", "zyg"]:
 
-            if subject_id not in valid_ids:
-                continue
+        baseline = "pretrial"
+        # TODO: include baseline calculated during fixation cross.
 
-            condition = filename.split('_')[1]
+        # Iterate through subject IDs and compile them
+        filenames = os.listdir(data_directory)
+        summary_filename = f"all_emg_{muscle}_{baseline}.csv"
+        # TODO: create a new dict of dicts where
+        # top key is column name. each column name is also a snippet label
+        # second key is a subjectid.
+        # For each subject ID, average all emg_avgs by snippet label
+        # all_subjects_averages = {
+            # "moral": {},
+            # "gustatory": {},
+            # "visual": {},
+            # "dsr": {},
+        # }
+        for filename in filenames:
+            if f"_{muscle}_emg_averages" in filename:
+                pathname = os.path.join(data_directory, filename)
+                df = pd.read_csv(pathname)
+                subject_id = filename.split("_")[0]
 
-            if condition == "visual":
-                '''
-                print(df)
-                print(df.loc[df.loc[:, "label"].isin(["con", "cor", "ar"]), "emg_avg_norm"] )
-                print(df.loc[df.loc[:, "label"].isin(["con", "cor", "ar"]), "emg_avg_norm"].mean() )
-                print(df.loc[df.loc[:, "label"] == "ar", "emg_avg_norm"] )
-                print(df.loc[df.loc[:, "label"] == "ar", "emg_avg_norm"].mean() )
-                print(df.loc[df.loc[:, "label"] == "con", "emg_avg_norm"] )
-                print(df.loc[df.loc[:, "label"] == "con", "emg_avg_norm"].mean() )
-                print(df.loc[df.loc[:, "label"] == "cor", "emg_avg_norm"])
-                print(df.loc[df.loc[:, "label"] == "cor", "emg_avg_norm"].mean() )
-                print(condition)
-                '''
-                emg_avg = df.loc[
-                    df.loc[:, "label"].isin(["con", "cor", "ar"]),
-                    "emg_avg_norm"
-                ].mean()
-                all_subjects_averages["visual"][subject_id] = emg_avg
+                if subject_id not in valid_ids:
+                    continue
 
-            if condition == "gustatory":
-                emg_avg = df.loc[
-                    df.loc[:, "label"].isin(["hq"]),
-                    "emg_avg_norm"
-                ].mean()
-                all_subjects_averages["gustatory"][subject_id] = emg_avg
+                print(f"Merging {filename}")
 
-            if condition == "moral":
-                emg_avg = df.loc[
-                    df.loc[:, "label"].isin([91, 82]),
-                    "emg_avg_norm"
-                ].mean()
-                all_subjects_averages["moral"][subject_id] = emg_avg
+                """
+                condition = filename.split('_')[1]
 
-    # Add in DSR scores
-    filename = "dsr_items.csv"
-    pathname = os.path.join("data", filename)
-    dsr_df = pd.read_csv(pathname)
-    for i, row in dsr_df.iterrows():
-        # print(row)
-        # print(row.values)
-        # print("subject id", row.values[-1])
-        # print("dsr", np.sum(row.values[:-1]))
-        subject_id = str(row.values[-1])
-        dsr = np.sum(row.values[:-1])
-        all_subjects_averages["dsr"][subject_id] = dsr
+                if condition == "visual":
+                    '''
+                    print(df)
+                    print(df.loc[df.loc[:, "label"].isin(["con", "cor", "ar"]), "emg_avg_norm"] )
+                    print(df.loc[df.loc[:, "label"].isin(["con", "cor", "ar"]), "emg_avg_norm"].mean() )
+                    print(df.loc[df.loc[:, "label"] == "ar", "emg_avg_norm"] )
+                    print(df.loc[df.loc[:, "label"] == "ar", "emg_avg_norm"].mean() )
+                    print(df.loc[df.loc[:, "label"] == "con", "emg_avg_norm"] )
+                    print(df.loc[df.loc[:, "label"] == "con", "emg_avg_norm"].mean() )
+                    print(df.loc[df.loc[:, "label"] == "cor", "emg_avg_norm"])
+                    print(df.loc[df.loc[:, "label"] == "cor", "emg_avg_norm"].mean() )
+                    print(condition)
+                    '''
+                    emg_avg = df.loc[
+                        df.loc[:, "label"].isin(["con", "cor", "ar", "n"]),
+                        "emg_avg_norm"
+                    ].mean()
+                    all_subjects_averages[df.loc[:][subject_id] = emg_avg
 
-    df_all = pd.DataFrame(all_subjects_averages)
-    df_all.to_csv(
-        os.path.join(data_directory, summary_filename),
-        columns = ["gustatory", "visual", "moral", "dsr"],
-    )
+                if condition == "gustatory":
+                    emg_avg = df.loc[
+                        df.loc[:, "label"].isin(["hq", "lq", "hs", "ls", "w"]),
+                        "emg_avg_norm"
+                    ].mean()
+                    all_subjects_averages["gustatory"][subject_id] = emg_avg
+
+                if condition == "moral":
+                    emg_avg = df.loc[
+                        df.loc[:, "label"].isin([91, 82, 73, 55]),
+                        "emg_avg_norm"
+                    ].mean()
+                    all_subjects_averages["moral"][subject_id] = emg_avg
+                """
+
+        # Add in DSR scores
+        filename = "dsr_items.csv"
+        pathname = os.path.join("data", filename)
+        dsr_df = pd.read_csv(pathname)
+        for i, row in dsr_df.iterrows():
+            # print(row)
+            # print(row.values)
+            # print("subject id", row.values[-1])
+            # print("dsr", np.sum(row.values[:-1]))
+            subject_id = str(row.values[-1])
+            dsr = np.sum(row.values[:-1])
+            all_subjects_averages["dsr"][subject_id] = dsr
+
+        df_all = pd.DataFrame(all_subjects_averages)
+        df_all.to_csv(
+            os.path.join(data_directory, summary_filename),
+            columns = ["gustatory", "visual", "moral", "dsr"],
+        )
 
     """
     # Iterate through subject IDs and compile them into a single csv.

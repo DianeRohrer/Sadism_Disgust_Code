@@ -291,103 +291,94 @@ def find_emg_averages(
     condition_start_times,
     offsets,
 ):
-    # muscles = ["cor", "mas", "ll", "zyg"]
+    # Process the muscles one at a time.
+    for muscle in ["cor", "mas", "ll", "zyg"]:
+        # For each muscle, process the conditions one at a time.
+        for i_condition, condition in enumerate(condition_order):
+            # Initialize this so that the last condition ends up with an
+            # end time that is far in the future.
+            end_time = 1e10
+            # For the first two conditions, the start of the next condition
+            # is their end time.
+            if i_condition < 2:
+                next_condition = condition_order[i_condition + 1]
+                end_time = condition_start_times[next_condition]
+            start_time = condition_start_times[condition]
+            offset = offsets[condition]
 
-    for i_condition, condition in enumerate(condition_order):
-        # Initialize this so that the last condition ends up with an
-        # end time that is far in the future.
-        end_time = 1e10
-        # For the first two conditions, the start of the next condition
-        # is their end time.
-        if i_condition < 2:
-            next_condition = condition_order[i_condition + 1]
-            end_time = condition_start_times[next_condition]
-        start_time = condition_start_times[condition]
-        offset = offsets[condition]
+            # Collect just the emg snippets that belong to this condition.
+            emg_cond = {}
+            for emg_key in emg_data.keys():
+                if (
+                    (emg_data[emg_key]["start_time"] >= start_time) and
+                    (emg_data[emg_key]["start_time"] < end_time)
+                ):
+                    emg_cond[emg_key] = emg_data[emg_key]
 
-        # Collect just the emg snippets that belong to this condition.
-        emg_cond = {}
-        for emg_key in emg_data.keys():
-            if (
-                (emg_data[emg_key]["start_time"] >= start_time) and
-                (emg_data[emg_key]["start_time"] < end_time)
-            ):
-                emg_cond[emg_key] = emg_data[emg_key]
+            # Collect just the artifacts that belong to this condition.
+            artifacts_cond = artifacts.loc[np.logical_and(
+                artifacts.loc[:, "end_time"] + offset >= start_time,
+                artifacts.loc[:, "start_time"] + offset < end_time
+            ), :]
+            artifact_start_times = artifacts_cond.loc[:, "start_time"].values + offset
+            artifact_end_times = artifacts_cond.loc[:, "end_time"].values + offset
 
-        # Collect just the artifacts that belong to this condition.
-        artifacts_cond = artifacts.loc[np.logical_and(
-            artifacts.loc[:, "end_time"] + offset >= start_time,
-            artifacts.loc[:, "start_time"] + offset < end_time
-        ), :]
-        artifact_start_times = artifacts_cond.loc[:, "start_time"].values + offset
-        artifact_end_times = artifacts_cond.loc[:, "end_time"].values + offset
+            # Processess the EMG snippets one at a time
+            for snippet_name, data in emg_cond.items():
 
-        # print("emg keys")
-        # print(emg_data.keys())
-        # print("condition keys")
-        # print(emg_cond.keys())
+                emg_snippet = copy.deepcopy(data[muscle])
+                n_points = emg_snippet.size
+                snippet_start_time = data["start_time"]
+                snippet_end_time = data["end_time"]
 
-        # print("artifact start range",
-        #     np.min(artifact_start_times), np.max(artifact_start_times))
-        # print("artifact end range",
-        #     np.min(artifact_end_times), np.max(artifact_end_times))
-        # print("condition range", start_time, end_time)
-
-        for snippet_name, data in emg_cond.items():
-            # We're only focused on "ll" for now.
-            emg_snippet = copy.deepcopy(data["ll"])
-            n_points = emg_snippet.size
-            snippet_start_time = data["start_time"]
-            snippet_end_time = data["end_time"]
-
-            i_snippet_artifacts = np.where(
-                np.logical_and(
-                    artifact_start_times <= snippet_end_time,
-                    snippet_start_time <= artifact_end_times,
-                )
-            )[0]
-            remove_starts = None
-            remove_ends = None
-            if i_snippet_artifacts.size > 0:
-                remove_starts = np.maximum(
-                    snippet_start_time, artifact_start_times[i_snippet_artifacts]
-                )
-                remove_ends = np.minimum(
-                    snippet_end_time, artifact_end_times[i_snippet_artifacts]
-                )
-                for i_snip in range(remove_starts.size):
-                    # print("remove_starts", type(remove_starts), remove_starts)
-                    start_index = int(
-                        (remove_starts[i_snip] - snippet_start_time)
-                        * SAMPLING_FREQUENCY
+                # Find the artifacts that overlap with this particular snippet.
+                i_snippet_artifacts = np.where(
+                    np.logical_and(
+                        artifact_start_times <= snippet_end_time,
+                        snippet_start_time <= artifact_end_times,
                     )
-                    last_index = int(
-                        (remove_ends[i_snip] - snippet_start_time)
-                        * SAMPLING_FREQUENCY
+                )[0]
+                remove_starts = None
+                remove_ends = None
+
+                # If any artifacts are found, remove those segments from the snippet.
+                if i_snippet_artifacts.size > 0:
+                    remove_starts = np.maximum(
+                        snippet_start_time, artifact_start_times[i_snippet_artifacts]
                     )
+                    remove_ends = np.minimum(
+                        snippet_end_time, artifact_end_times[i_snippet_artifacts]
+                    )
+                    for i_snip in range(remove_starts.size):
+                        start_index = int(
+                            (remove_starts[i_snip] - snippet_start_time)
+                            * SAMPLING_FREQUENCY
+                        )
+                        last_index = int(
+                            (remove_ends[i_snip] - snippet_start_time)
+                            * SAMPLING_FREQUENCY
+                        )
 
-                    index_err_msg = "Index error in removing artifacts"
-                    # print("start index", start_index, "last index", last_index, "n points", n_points)
-                    assert start_index >= 0, index_err_msg
-                    assert last_index <= n_points, index_err_msg
+                        index_err_msg = "Index error in removing artifacts"
 
-                    # Handle what appears to be an unfortunate rounding error
-                    # to keep all indices within bounds.
-                    if last_index == n_points:
-                        last_index = n_points - 1
+                        assert start_index >= 0, index_err_msg
+                        assert last_index <= n_points, index_err_msg
 
-                    emg_snippet[start_index : last_index + 1] = np.nan
-                    # print(start_index, last_index)
+                        # Handle what appears to be an unfortunate rounding error
+                        # to keep all indices within bounds.
+                        if last_index == n_points:
+                            last_index = n_points - 1
 
-            data["emg_avg"] = np.nanmean(emg_snippet) * 1e6
-            # emg_cond[snippet_name]["emg_avg"] = np.nanmean(emg_snippet) * 1e6
-            # print("data", data)
+                        emg_snippet[start_index : last_index + 1] = np.nan
 
-        write_emg_averages(emg_cond, condition, data_directory, subject_id)
+                data[f"emg_avg_{muscle}"] = np.nanmean(emg_snippet) * 1e6
+
+            write_emg_averages(emg_cond, condition, muscle, data_directory, subject_id)
 
 
-def write_emg_averages(emg_data, condition, data_directory, subject_id):
-    emg_averages_filename = f'{subject_id}_{condition}_emg_averages.csv'
+def write_emg_averages(emg_data, condition, muscle, data_directory, subject_id):
+    # Create filename dict
+    emg_averages_filename = f'{subject_id}_{condition}_{muscle}_emg_averages.csv'
     emg_averages_pathname = os.path.join(data_directory, emg_averages_filename)
 
     (
@@ -418,15 +409,14 @@ def write_emg_averages(emg_data, condition, data_directory, subject_id):
     for snippet_name, data in emg_data.items():
         emg_dict = {}
         emg_dict["snippet_name"] = snippet_name
-        emg_dict["emg_avg"] = data["emg_avg"]
+        emg_dict["emg_avg"] = data[f"emg_avg_{muscle}"]
         snippet_type = snippet_name.split('_')[0]
         snippet_num = int(snippet_name.split('_')[1])
         emg_dict["snippet_type"] = snippet_type
         emg_dict_list.append(emg_dict)
-        # print(emg_dict)
 
         if snippet_type == "baseline":
-            baseline_emg_avg = data["emg_avg"]
+            baseline_emg_avg = data[f"emg_avg_{muscle}"]
 
         if condition == "moral" and snippet_type == "offer":
             emg_dict["label"] = bets[snippet_num]
@@ -436,7 +426,6 @@ def write_emg_averages(emg_data, condition, data_directory, subject_id):
 
         if condition == "visual" and snippet_type == "view":
             img_id = disgust_images[snippet_num][22: 26]
-            # print("img id", img_id, "img label", img_labels[img_id])
             emg_dict["label"] = img_labels[img_id]
 
     # Find the baseline-adjusted emg averages for every snippet in
@@ -446,6 +435,9 @@ def write_emg_averages(emg_data, condition, data_directory, subject_id):
 
     df = pd.DataFrame(emg_dict_list)
     df.to_csv(emg_averages_pathname)
+
+    # TODO: Also calculate the baseline using the average EMG during
+    # the fixation cross
 
 
 '''

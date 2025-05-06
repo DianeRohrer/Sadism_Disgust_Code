@@ -82,17 +82,17 @@ def read_emg_data(filename, samples, labels):
 
     # events = mne.events_from_annotations(raw)
     # event_data = events[0]
-    # cor_emg = raw.copy()[0, :][0].ravel()
+    cor_emg = raw.copy()[0, :][0].ravel()
     ll_emg = raw.copy()[1, :][0].ravel()
-    # zyg_emg = raw.copy()[2, :][0].ravel()
-    # mas_emg = raw.copy()[3, :][0].ravel()
+    zyg_emg = raw.copy()[2, :][0].ravel()
+    mas_emg = raw.copy()[3, :][0].ravel()
 
     # Filter each muscle's EMG data to take out the very low and
     # very high frequencies.
-    # cor_filt = np.abs(bandpass_filter(cor_emg))
+    cor_filt = np.abs(bandpass_filter(cor_emg))
     ll_filt = np.abs(bandpass_filter(ll_emg))
-    # zyg_filt = np.abs(bandpass_filter(zyg_emg))
-    # mas_filt = np.abs(bandpass_filter(mas_emg))
+    zyg_filt = np.abs(bandpass_filter(zyg_emg))
+    mas_filt = np.abs(bandpass_filter(mas_emg))
 
     emg_data = {}
     condition_start_times = {}
@@ -186,21 +186,20 @@ def read_emg_data(filename, samples, labels):
         start_time = start_sample / SAMPLING_FREQUENCY
         end_time = end_sample / SAMPLING_FREQUENCY
 
-        # cor_snippet = cor_filt[start_sample : end_sample]
+        cor_snippet = cor_filt[start_sample : end_sample]
         ll_snippet = ll_filt[start_sample : end_sample]
-        # zyg_snippet = zyg_filt[start_sample : end_sample]
-        # mas_snippet = mas_filt[start_sample : end_sample]
+        zyg_snippet = zyg_filt[start_sample : end_sample]
+        mas_snippet = mas_filt[start_sample : end_sample]
 
         emg_data[key] = {
             "start_time": start_time,
             "end_time": end_time,
             "start_sample": start_sample,
             "end_sample": end_sample,
-            # Only the "ll" lavator labii muscle is being extracted for now.
-            # "cor": cor_snippet,
+            "cor": cor_snippet,
             "ll": ll_snippet,
-            # "zyg": zyg_snippet,
-            # "mas": mas_snippet,
+            "zyg": zyg_snippet,
+            "mas": mas_snippet,
         }
 
     return emg_data, condition_start_times, spit_beep_times
