@@ -371,7 +371,16 @@ def find_emg_averages(
 
                         emg_snippet[start_index : last_index + 1] = np.nan
 
-                data[f"emg_avg_{muscle}"] = np.nanmean(emg_snippet) * 1e6
+                emg_avg = np.nanmean(emg_snippet) * 1e6
+                data[f"emg_avg_{muscle}"] = emg_avg
+                # Print a warning if the snippet has been erased by artifacts.
+                # Only do it for one muscle, so that every warning is not
+                # repeated 4 times.
+                if np.isnan(emg_avg) and muscle == "ll":
+                    print(
+                        f"Warning: The {snippet_name} snippet " +
+                        f"for subject {subject_id} is probably eclipsed by artifacts."
+                    )
 
             write_emg_averages(emg_cond, condition, muscle, data_directory, subject_id)
 
